@@ -131,6 +131,7 @@
     const deliveryTerms = document.getElementById('deliveryTerms');
     const totalPriceText = document.getElementById('totalPriceText');
     const invoiceSummary = document.getElementById('invoiceSummary');
+    const btnCopyClipboard = document.getElementById('btnCopyClipboard');
     
     // Admin Modal DOM
     const adminModal = document.getElementById('adminModal');
