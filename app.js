@@ -2,13 +2,58 @@
 
 (function () {
     // 1. Data & State Initialization
+    const SHARED_ADDITIONS = [
+        { id: "win_lux_50_50_p", name: "Окно ПВХ ЛЮКС 50х50 поворотное", price: 5500, type: "quantity", quantity: 0 },
+        { id: "win_lux_50_50_po2", name: "Окно ПВХ ЛЮКС 50х50 (2 камеры) поворотно-откидное", price: 8500, type: "quantity", quantity: 0 },
+        { id: "win_lux_60_90_po", name: "Окно ПВХ ЛЮКС 60х90 поворотно-откидное", price: 7500, type: "quantity", quantity: 0 },
+        { id: "win_lux_60_120_po", name: "Окно ПВХ ЛЮКС 60х120 поворотно-откидное", price: 10000, type: "quantity", quantity: 0 },
+        { id: "win_lux_60_180_po", name: "Окно ПВХ ЛЮКС 60х180 поворотно-откидное", price: 12000, type: "quantity", quantity: 0 },
+        { id: "win_lux_100_100_po", name: "Окно ПВХ ЛЮКС 100х100 поворотно-откидное", price: 9000, type: "quantity", quantity: 0 },
+        { id: "win_lux_100_120_po1", name: "Окно ПВХ ЛЮКС 100х120 (1 камера) поворотно-откидное", price: 11000, type: "quantity", quantity: 0 },
+        { id: "win_lux_100_120_po2", name: "Окно ПВХ ЛЮКС 100х120 (2 камеры) поворотно-откидное", price: 14000, type: "quantity", quantity: 0 },
+        { id: "win_lux_120_120_po", name: "Окно ПВХ ЛЮКС 120х120 поворотно-откидное", price: 13000, type: "quantity", quantity: 0 },
+        { id: "win_lux_100_140_po", name: "Окно ПВХ ЛЮКС 100х140 поворотно-откидное", price: 14000, type: "quantity", quantity: 0 },
+        { id: "win_lux_100_150_po", name: "Окно ПВХ ЛЮКС 100х150 поворотно-откидное", price: 15000, type: "quantity", quantity: 0 },
+        { id: "win_lux_120_150_po", name: "Окно ПВХ ЛЮКС 120х150 поворотно-откидное", price: 16500, type: "quantity", quantity: 0 },
+        { id: "win_lux_140_150_po", name: "Окно ПВХ ЛЮКС 140х150 поворотно-откидное", price: 17000, type: "quantity", quantity: 0 },
+        { id: "win_lux_150_150_po", name: "Окно ПВХ ЛЮКС 150х150 поворотно-откидное", price: 17500, type: "quantity", quantity: 0 },
+        { id: "win_lux_150_100_po", name: "Окно ПВХ ЛЮКС 150х100 поворотно-откидное", price: 18000, type: "quantity", quantity: 0 },
+        { id: "win_lux_150_190_po", name: "Окно ПВХ ЛЮКС 150х190 поворотно-откидное", price: 25000, type: "quantity", quantity: 0 },
+        { id: "win_lux_180_190_po", name: "Окно ПВХ ЛЮКС 180х190 поворотно-откидное", price: 26000, type: "quantity", quantity: 0 },
+        { id: "win_lux_180_200_po", name: "Окно ПВХ ЛЮКС 180х200 поворотно-откидное", price: 30000, type: "quantity", quantity: 0 },
+
+        { id: "pile_76_1500", name: "Свая винтовая 76/1500", price: 3550, type: "quantity", quantity: 0 },
+        { id: "pile_76_2000", name: "Свая винтовая 76/2000", price: 3700, type: "quantity", quantity: 0 },
+        { id: "pile_76_2500", name: "Свая винтовая 76/2500", price: 4000, type: "quantity", quantity: 0 },
+        { id: "pile_76_3000", name: "Свая винтовая 76/3000", price: 4300, type: "quantity", quantity: 0 },
+        { id: "pile_89_2000", name: "Свая винтовая 89/2000", price: 3900, type: "quantity", quantity: 0 },
+        { id: "pile_89_2500", name: "Свая винтовая 89/2500", price: 4200, type: "quantity", quantity: 0 },
+        { id: "pile_89_3000", name: "Свая винтовая 89/3000", price: 4600, type: "quantity", quantity: 0 },
+        { id: "pile_108_2000", name: "Свая винтовая 108/2000", price: 4700, type: "quantity", quantity: 0 },
+        { id: "pile_108_2500", name: "Свая винтовая 108/2500", price: 5100, type: "quantity", quantity: 0 },
+        { id: "pile_108_3000", name: "Свая винтовая 108/3000", price: 5600, type: "quantity", quantity: 0 },
+        { id: "pile_delivery_60", name: "Доставка свай (60 р/км)", price: 60, type: "area", quantity: 0 },
+
+        { id: "profile_harness", name: "Обвязка профилем 20х40 одной линией (периметр * 450 р)", price: 450, type: "area", quantity: 0 },
+
+        { id: "roof_metal", name: "Кровля: Металлочерепица (+1500 р/м²)", price: 1500, type: "area", quantity: 0 },
+        { id: "roof_proflist", name: "Кровля: Профлист С8 цветной (+750 р/м²)", price: 750, type: "area", quantity: 0 },
+        { id: "frame_upgrade", name: "Замена каркаса 50/100 на 50/150 без утепления (+2000 р/м²)", price: 2000, type: "area", quantity: 0 },
+        { id: "vent_gap", name: "Вентзазор (периметр * 2000 р)", price: 2000, type: "area", quantity: 0 },
+        { id: "roof_overhangs", name: "Свесы на кровле до 30 см (периметр * 1200 р)", price: 1200, type: "area", quantity: 0 },
+
+        { id: "generator_daily", name: "Генератор (сутки)", price: 2500, type: "quantity", quantity: 0 },
+        { id: "material_carry", name: "Пронос материала свыше 20 м (за каждые 10 м)", price: 5000, type: "quantity", quantity: 0 },
+        { id: "long_ladder", name: "Лестница на всю длину", price: 20000, type: "quantity", quantity: 0 }
+    ];
+
     let activeConfig = [];
     let customRates = {
         rate_house_high: 12500,
-        rate_house_low: 10000,
+        rate_house_low_osb: 9500,
+        rate_house_low_lining: 10000,
         rate_cabin: 8000,
         rate_hozblok: 5500,
-        rate_container: 9000,
         rate_veranda: 7500,
         rate_ext_imitation: 250,
         rate_ext_blockhouse: 1000,
@@ -28,7 +73,7 @@
         rate_assembly: 1000,
         delivery_base_dist: 50,
         delivery_base_price: 12000,
-        delivery_price_km: 100
+        delivery_price_km: 200
     };
     
     function loadConfig() {
@@ -49,6 +94,43 @@
                 customRates = { ...customRates, ...JSON.parse(localRates) };
             } catch (e) {}
         }
+
+        // Apply block-container filtering and additions merging dynamically
+        activeConfig = activeConfig.filter(model => !model.name.toLowerCase().includes("блок-контейнер"));
+        
+        activeConfig.forEach(model => {
+            // Remove old additions that we are replacing/standardizing
+            model.additions = model.additions.filter(add => {
+                const nameLower = add.name.toLowerCase();
+                if (nameLower.includes('окно') || nameLower.includes('пвх')) return false;
+                if (nameLower.includes('сва') || nameLower.includes('сваи')) return false;
+                if (nameLower.includes('металлочерепица')) return false;
+                if (nameLower.includes('профлист')) return false;
+                if (nameLower.includes('вентзазор')) return false;
+                if (nameLower.includes('свесы')) return false;
+                if (nameLower.includes('генератор')) return false;
+                if (nameLower.includes('перенос материала') || nameLower.includes('пронос материала')) return false;
+                if (nameLower.includes('лестница')) return false;
+                return true;
+            });
+            // Prepend new shared additions
+            model.additions = [...SHARED_ADDITIONS, ...model.additions];
+            
+            // Update PVC doors price
+            model.additions.forEach(add => {
+                const nameLower = add.name.toLowerCase();
+                if (nameLower.includes('дверь') && nameLower.includes('пвх')) {
+                    add.price = 35000;
+                    add.name = "Дверь входная ПВХ (35 000 р)";
+                }
+            });
+
+            // Update delivery rate
+            if (model.delivery) {
+                model.delivery.pricePerKm = 200;
+                model.delivery.notes = `Доставка: до ${model.delivery.baseDistance} км = ${model.delivery.basePrice} р. свыше по 200 р/км`;
+            }
+        });
     }
     
     loadConfig();
@@ -58,12 +140,13 @@
         calculatorMode: 'custom', // 'custom' or 'standard'
         
         // Custom Mode params
-        customType: 'house_high', // 'house_high', 'house_low', 'cabin', 'hozblok', 'container'
+        customType: 'house_high',
         customLength: 6.0,
         customWidth: 3.0,
         customHeight: 2.4,
         chkCustomVeranda: false,
         customVerandaWidth: 2.0,
+        customVerandaType: 'freestanding',
         selCustomExterior: 'none',
         selCustomInterior: 'none',
         selCustomFloor: 'none',
@@ -106,6 +189,8 @@
     const lblCustomVerandaWidth = document.getElementById('lblCustomVerandaWidth');
     const customVerandaSliderWrap = document.getElementById('customVerandaSliderWrap');
     const customVerandaSlider = document.getElementById('customVerandaSlider');
+    const customVerandaTypeWrap = document.getElementById('customVerandaTypeWrap');
+    const selCustomVerandaType = document.getElementById('selCustomVerandaType');
     const selCustomExterior = document.getElementById('selCustomExterior');
     const selCustomInterior = document.getElementById('selCustomInterior');
     const selCustomFloor = document.getElementById('selCustomFloor');
@@ -220,15 +305,145 @@
 
     function getActiveModel() {
         if (state.calculatorMode === 'custom') {
-            if (state.customType === 'house_high' || state.customType === 'house_low') {
+            if (state.customType === 'house_high' || state.customType === 'house_low_osb' || state.customType === 'house_low_lining') {
                 return activeConfig.find(m => m.name.includes("Дачный дом \"Каркасный\"")) || activeConfig[1];
-            } else if (state.customType === 'container') {
-                return activeConfig.find(m => m.name.includes("Блок-контейнер \"Стандарт\"")) || activeConfig[4];
             } else {
-                return activeConfig.find(m => m.name.includes("Бытовка \"Стандарт\"")) || activeConfig[2];
+                return activeConfig.find(m => m.name.includes("Бытовка А. Корнилова")) || activeConfig.find(m => m.name.includes("Бытовка")) || activeConfig[0];
             }
         }
         return activeConfig[state.activeModelIdx] || activeConfig[0];
+    }
+
+    function updateCustomDropdowns() {
+        const type = state.customType;
+        
+        // 1. Exterior Dropdown
+        let extHTML = '';
+        if (type === 'house_high') {
+            extHTML = `
+                <option value="none">Имитация бруса 'В' (базовая, включена)</option>
+                <option value="osb">ОСБ 12 мм (+50 р/м²)</option>
+                <option value="lining_a">Вагонка 'А' класс (+380 р/м²)</option>
+                <option value="imitation_a">Имитация бруса 'А' (+150 р/м²)</option>
+                <option value="blockhouse">Блок-хаус (+750 р/м²)</option>
+            `;
+        } else if (type === 'house_low_osb' || type === 'house_low_lining') {
+            extHTML = `
+                <option value="none">Вагонка 'ВС' (базовая, включена)</option>
+                <option value="imitation">Имитация бруса (+250 р/м²)</option>
+                <option value="blockhouse">Блок-хаус (+1000 р/м²)</option>
+                <option value="proflist">Профлист цветной (+300 р/м²)</option>
+                <option value="osb">ОСБ 12 мм (+300 р/м²)</option>
+            `;
+        } else { // cabin, hozblok
+            extHTML = `
+                <option value="none">Вагонка класса В (базовая, включена)</option>
+                <option value="imitation">Имитация бруса (+250 р/м²)</option>
+                <option value="blockhouse">Блок-хаус (+1000 р/м²)</option>
+                <option value="proflist">Профлист цветной (+300 р/м²)</option>
+                <option value="osb">ОСБ 12 мм (+300 р/м²)</option>
+            `;
+        }
+        
+        const prevExt = selCustomExterior.value;
+        selCustomExterior.innerHTML = extHTML;
+        if (selCustomExterior.querySelector(`option[value="${prevExt}"]`)) {
+            selCustomExterior.value = prevExt;
+        } else {
+            selCustomExterior.value = 'none';
+        }
+        state.selCustomExterior = selCustomExterior.value;
+
+        // 2. Interior Dropdown
+        let intHTML = '';
+        if (type === 'house_high') {
+            intHTML = `
+                <option value="none">Вагонка 'ВС' (базовая, включена)</option>
+                <option value="imitation">Имитация бруса (+250 р/м²)</option>
+            `;
+        } else if (type === 'house_low_osb') {
+            intHTML = `
+                <option value="none">ОСБ 9 мм (базовая, включена)</option>
+                <option value="lining">Вагонка 'ВС' (+500 р/м²)</option>
+                <option value="imitation">Имитация бруса (+750 р/м²)</option>
+            `;
+        } else if (type === 'house_low_lining') {
+            intHTML = `
+                <option value="none">Вагонка 'ВС' (базовая, включена)</option>
+                <option value="imitation">Имитация бруса (+250 р/м²)</option>
+            `;
+        } else { // cabin, hozblok
+            intHTML = `
+                <option value="none">ДВП (базовая, включена)</option>
+                <option value="osb">ОСБ 9 мм (+300 р/м²)</option>
+                <option value="lining">Вагонка класса В (+400 р/м²)</option>
+                <option value="mdf">МДФ панели (+500 р/м²)</option>
+                <option value="pvc">ПВХ панели (+500 р/м²)</option>
+            `;
+        }
+        
+        const prevInt = selCustomInterior.value;
+        selCustomInterior.innerHTML = intHTML;
+        if (selCustomInterior.querySelector(`option[value="${prevInt}"]`)) {
+            selCustomInterior.value = prevInt;
+        } else {
+            selCustomInterior.value = 'none';
+        }
+        state.selCustomInterior = selCustomInterior.value;
+
+        // 3. Insulation Dropdown
+        let insHTML = '';
+        if (type === 'house_high') {
+            insHTML = `
+                <option value="100">минеральная вата 100 мм (базовая)</option>
+                <option value="izobel_100">100 мм базальтовая плита Izobel (+300 р/м²)</option>
+                <option value="izobel_150">150 мм с заменой каркаса Izobel (+3500 р/м²)</option>
+                <option value="izobel_200">200 мм с заменой каркаса (+4500 р/м²)</option>
+                <option value="cold">Без утеплителя / холодный контур (ХК)</option>
+            `;
+        } else {
+            insHTML = `
+                <option value="50">50 мм (включено)</option>
+                <option value="100">100 мм (+550 р/м²)</option>
+                <option value="150">150 мм (+1000 р/м²)</option>
+                <option value="200">200 мм (+1500 р/м²)</option>
+                <option value="0">Без утеплителя</option>
+            `;
+        }
+        
+        const prevIns = selCustomInsulation.value;
+        selCustomInsulation.innerHTML = insHTML;
+        if (selCustomInsulation.querySelector(`option[value="${prevIns}"]`)) {
+            selCustomInsulation.value = prevIns;
+        } else {
+            selCustomInsulation.value = type === 'house_high' ? '100' : '50';
+        }
+        state.selCustomInsulation = selCustomInsulation.value;
+
+        // 4. Floor Dropdown
+        let floorHTML = '';
+        if (type === 'house_high' || type === 'house_low_osb' || type === 'house_low_lining') {
+            floorHTML = `
+                <option value="none">Обрезная доска 25мм (базовая)</option>
+                <option value="osb12">ОСБ 12мм (+500 р/м²)</option>
+                <option value="tongue28">Шпунтованная доска 28мм (+1000 р/м²)</option>
+            `;
+        } else {
+            floorHTML = `
+                <option value="none">Обрезная доска 25мм (базовая)</option>
+                <option value="osb12">ОСБ 12мм (+500 р/м²)</option>
+                <option value="tongue28">Шпунтованная доска 28мм (+1000 р/м²)</option>
+            `;
+        }
+        
+        const prevFloor = selCustomFloor.value;
+        selCustomFloor.innerHTML = floorHTML;
+        if (selCustomFloor.querySelector(`option[value="${prevFloor}"]`)) {
+            selCustomFloor.value = prevFloor;
+        } else {
+            selCustomFloor.value = 'none';
+        }
+        state.selCustomFloor = selCustomFloor.value;
     }
 
     // 4. Model UI Rendering Engine
@@ -243,14 +458,22 @@
             if (state.chkCustomVeranda) {
                 lblCustomVerandaWidth.style.display = 'inline';
                 customVerandaSliderWrap.style.display = 'flex';
+                customVerandaTypeWrap.style.display = 'flex';
             } else {
                 lblCustomVerandaWidth.style.display = 'none';
                 customVerandaSliderWrap.style.display = 'none';
+                customVerandaTypeWrap.style.display = 'none';
             }
+
+            // Dynamically update exterior, interior, insulation, and floor dropdown options
+            updateCustomDropdowns();
 
             // Assembly price update in UI
             const area = state.customLength * state.customWidth;
-            const assemblyPrice = Math.round(area * customRates.rate_assembly);
+            let assemblyPrice = 0;
+            if (state.customType !== 'house_high' && state.customType !== 'house_low_osb' && state.customType !== 'house_low_lining') {
+                assemblyPrice = Math.round(area * customRates.rate_assembly);
+            }
             lblCustomAssemblyPrice.textContent = `+${assemblyPrice.toLocaleString('ru-RU')} руб.`;
             
             // Render Additions and Delivery notes
@@ -423,7 +646,6 @@
         calculateBill();
     }
 
-    // Render additions rows (for both modes)
     function renderAdditions() {
         const model = getActiveModel();
         if (!model) return;
@@ -446,30 +668,38 @@
             // Apply filtering logic
             if (activeAdditionFilter !== 'all') {
                 const nameLower = add.name.toLowerCase();
-                if (activeAdditionFilter === 'windows' && !nameLower.includes('окн')) return;
-                if (activeAdditionFilter === 'doors' && !nameLower.includes('двер')) return;
-                if (activeAdditionFilter === 'area' && !add.type === 'area' && !nameLower.includes('пол') && !nameLower.includes('ваг') && !nameLower.includes('осб') && !nameLower.includes('стена') && !nameLower.includes('покраск')) return;
-                if (activeAdditionFilter === 'other' && (nameLower.includes('окн') || nameLower.includes('двер') || add.type === 'area')) return;
+                if (activeAdditionFilter === 'windows') {
+                    if (!nameLower.includes('окн')) return;
+                } else if (activeAdditionFilter === 'doors') {
+                    if (!nameLower.includes('двер')) return;
+                } else if (activeAdditionFilter === 'area') {
+                    if (add.type !== 'area' && !nameLower.includes('пол') && !nameLower.includes('ваг') && !nameLower.includes('осб') && !nameLower.includes('стена') && !nameLower.includes('покраск')) return;
+                } else if (activeAdditionFilter === 'other') {
+                    if (nameLower.includes('окн') || nameLower.includes('двер') || add.type === 'area' || nameLower.includes('пол') || nameLower.includes('ваг') || nameLower.includes('осб') || nameLower.includes('стена') || nameLower.includes('покраск')) return;
+                }
             }
 
             const qty = state.additionQuantities[add.id] || 0;
             const price = add.price || 0;
-            const total = qty * price;
             
             let recQty = 0;
             let recText = '';
             if (add.type === 'area') {
-                if (add.name.toLowerCase().includes('стена') || add.name.toLowerCase().includes('стен')) {
+                const nameLower = add.name.toLowerCase();
+                if (nameLower.includes('стена') || nameLower.includes('стен')) {
                     const height = (state.calculatorMode === 'custom') ? state.customHeight : ((model.name.includes("Дачный дом \"Каркасный\"")) ? state.houseTypeHeight : 2.2);
                     recQty = Math.ceil(perimeter * height);
                     recText = `Стены: ${recQty} м²`;
+                } else if (nameLower.includes('периметр') || nameLower.includes('вентзазор') || nameLower.includes('свес') || nameLower.includes('обвязк')) {
+                    recQty = Math.ceil(perimeter);
+                    recText = `Периметр: ${recQty} м`;
                 } else {
                     recQty = Math.ceil(area);
-                    recText = `Пол: ${recQty} м²`;
+                    recText = `Площадь: ${recQty} м²`;
                 }
             }
 
-            const applyLink = recText ? ` <a href="#" class="apply-rec-btn" data-val="${recQty}" style="font-size:11px; color:var(--primary); text-decoration:underline; margin-left:8px; cursor:pointer;" title="Подставить площадь в количество">${recText}</a>` : '';
+            const applyLink = recText ? ` <a href="#" class="apply-rec-btn" data-val="${recQty}" style="font-size:11px; color:var(--primary); text-decoration:underline; margin-left:8px; cursor:pointer;" title="Подставить площадь/периметр в количество">${recText}</a>` : '';
 
             const row = document.createElement('div');
             row.className = 'option-row';
@@ -544,20 +774,27 @@
             area = state.customLength * state.customWidth;
             perimeter = 2 * (state.customLength + state.customWidth);
             const wallArea = perimeter * state.customHeight;
+            let extWallArea = wallArea;
+            if (state.customType === 'house_high') {
+                extWallArea = perimeter * 3.5;
+            }
             
             sizeName = `${state.customLength}х${state.customWidth}м`;
 
             // Base rate lookup based on category type selection
-            const baseRate = customRates[`rate_${state.customType}`] || 8000;
+            let baseRate = customRates[`rate_${state.customType}`] || 8000;
+            if (state.customType === 'house_high' && state.selCustomInsulation === 'cold') {
+                baseRate = 9500;
+            }
             basePrice = area * baseRate;
             
             // Structure Label
             const structNames = {
                 house_high: 'Дом высокий',
-                house_low: 'Дом низкий',
+                house_low_osb: 'Дом низкий (ОСБ)',
+                house_low_lining: 'Дом низкий (Вагонка)',
                 cabin: 'Бытовка',
-                hozblok: 'Хозблок',
-                container: 'Блок-контейнер'
+                hozblok: 'Хозблок'
             };
             selectedFinishName = structNames[state.customType] || 'Бытовка';
 
@@ -565,22 +802,45 @@
             let verandaCost = 0;
             if (state.chkCustomVeranda) {
                 const verandaArea = state.customLength * state.customVerandaWidth;
-                verandaCost = verandaArea * customRates.rate_veranda;
-                floorSum += verandaCost; // add to floor options category
+                const vRate = state.customVerandaType === 'high_roof' ? 9500 : 7500;
+                verandaCost = verandaArea * vRate;
+                floorSum += verandaCost;
             }
 
             // Exterior Finish Upgrade
             let extCost = 0;
             if (state.selCustomExterior !== 'none') {
-                const rate = customRates[`rate_ext_${state.selCustomExterior}`] || 0;
-                extCost = wallArea * rate;
+                let rate = 0;
+                if (state.customType === 'house_high') {
+                    const highExtRates = { osb: 50, lining_a: 380, imitation_a: 150, blockhouse: 750 };
+                    rate = highExtRates[state.selCustomExterior] || 0;
+                } else {
+                    rate = customRates[`rate_ext_${state.selCustomExterior}`] || 0;
+                }
+                extCost = extWallArea * rate;
             }
 
             // Interior Finish Upgrade
             let intCost = 0;
             if (state.selCustomInterior !== 'none') {
-                const rate = customRates[`rate_int_${state.selCustomInterior}`] || 0;
-                intCost = wallArea * rate;
+                if (state.customType === 'house_high') {
+                    if (state.selCustomInterior === 'imitation') {
+                        const intArea = (perimeter * 2.5) + area;
+                        intCost = intArea * 250;
+                    }
+                } else if (state.customType === 'house_low_osb') {
+                    const intArea = (perimeter * state.customHeight) + area;
+                    const rates = { lining: 500, imitation: 750 };
+                    intCost = intArea * (rates[state.selCustomInterior] || 0);
+                } else if (state.customType === 'house_low_lining') {
+                    const intArea = (perimeter * state.customHeight) + area;
+                    if (state.selCustomInterior === 'imitation') {
+                        intCost = intArea * 250;
+                    }
+                } else {
+                    const rate = customRates[`rate_int_${state.selCustomInterior}`] || 0;
+                    intCost = wallArea * rate;
+                }
             }
             floorSum += (extCost + intCost); // Group as finish upgrades
 
@@ -593,18 +853,26 @@
             }
 
             // Insulation Upgrade
-            if (state.selCustomInsulation !== '50') {
-                if (state.selCustomInsulation === '0') {
-                    // No insulation: negative value or 0
-                } else {
-                    const rate = customRates[`rate_ins_${state.selCustomInsulation}`] || 0;
-                    insulationSum = area * rate;
+            if (state.customType === 'house_high') {
+                const insRates = { 100: 0, izobel_100: 300, izobel_150: 3500, izobel_200: 4500, cold: 0 };
+                const rate = insRates[state.selCustomInsulation] || 0;
+                insulationSum = area * rate;
+            } else {
+                if (state.selCustomInsulation !== '50') {
+                    if (state.selCustomInsulation !== '0') {
+                        const rate = customRates[`rate_ins_${state.selCustomInsulation}`] || 0;
+                        insulationSum = area * rate;
+                    }
                 }
             }
 
             // Assembly Cost
             if (state.chkCustomAssembly) {
-                assemblyPrice = Math.round(area * customRates.rate_assembly);
+                if (state.customType !== 'house_high' && state.customType !== 'house_low_osb' && state.customType !== 'house_low_lining') {
+                    assemblyPrice = Math.round(area * customRates.rate_assembly);
+                } else {
+                    assemblyPrice = 0;
+                }
             }
 
         } else {
@@ -694,6 +962,22 @@
 
         const finalTotal = rawTotal - discountVal + vatVal + deliveryPrice;
 
+        // Save to state for buildReportText() to consume
+        state.basePrice = basePrice;
+        state.assemblyPrice = assemblyPrice;
+        state.floorSum = floorSum;
+        state.insulationSum = insulationSum;
+        state.additionsSum = additionsSum;
+        state.deliveryPrice = deliveryPrice;
+        state.discountVal = discountVal;
+        state.vatVal = vatVal;
+        state.finalTotal = finalTotal;
+        state.selectedAdditionsText = selectedAdditionsText;
+        state.calculatedArea = area;
+        state.calculatedPerimeter = perimeter;
+        state.calculatedSizeName = sizeName;
+        state.calculatedStructName = selectedFinishName;
+
         // Update UI
         totalPriceText.textContent = `${finalTotal.toLocaleString('ru-RU')} руб.`;
 
@@ -779,35 +1063,12 @@
     }
 
     // 6. Text-based formatted сметы generator
+    // 6. Text-based formatted сметы generator
     function buildReportText() {
-        const model = getActiveModel();
+        const area = state.calculatedArea || 0;
+        const sizeName = state.calculatedSizeName || '';
+        const structName = state.calculatedStructName || '';
         
-        let area = 0;
-        let perimeter = 0;
-        let sizeName = '';
-        let structName = '';
-        
-        if (state.calculatorMode === 'custom') {
-            area = state.customLength * state.customWidth;
-            perimeter = 2 * (state.customLength + state.customWidth);
-            sizeName = `${state.customLength}х${state.customWidth}м (H=${state.customHeight}м)`;
-            const structNames = {
-                house_high: 'Дом высокий',
-                house_low: 'Дом низкий',
-                cabin: 'Бытовка',
-                hozblok: 'Хозблок',
-                container: 'Блок-контейнер'
-            };
-            structName = structNames[state.customType] || 'Бытовка';
-        } else {
-            const size = model.sizes.find(s => s.id === state.selectedSizeId);
-            const finish = model.finishes[state.selectedFinishIdx];
-            area = size ? size.length * size.width : 0;
-            perimeter = size ? 2 * (size.length + size.width) : 0;
-            sizeName = size ? size.name : '';
-            structName = finish ? `${model.name} (${finish.name})` : model.name;
-        }
-
         let text = `📄 РАСЧЕТ СТОИМОСТИ СТРОИТЕЛЬСТВА\n`;
         text += `------------------------------------\n`;
         text += `🏠 Конструкция: ${structName}\n`;
@@ -817,97 +1078,53 @@
             text += `🧱 Материалы отделки:\n`;
             
             const extNames = {
-                none: 'Вагонка класса В',
-                imitation: 'Имитация бруса',
+                none: state.customType === 'house_high' ? 'Имитация бруса класса В' : 'Вагонка класса ВС',
+                osb: 'ОСБ 12 мм',
+                lining_a: 'Вагонка класса А',
+                imitation_a: 'Имитация бруса класса А',
                 blockhouse: 'Блок-хаус',
                 proflist: 'Профлист цветной',
-                osb: 'ОСБ 12 мм'
+                imitation: 'Имитация бруса'
             };
             const intNames = {
-                none: 'ДВП',
+                none: state.customType === 'house_high' ? 'Вагонка класса ВС' : (state.customType === 'house_low_osb' ? 'ОСБ 9 мм' : (state.customType === 'house_low_lining' ? 'Вагонка класса ВС' : 'ДВП')),
                 osb: 'ОСБ 9 мм',
                 lining: 'Вагонка класса В',
                 mdf: 'МДФ панели',
-                pvc: 'ПВХ панели'
+                pvc: 'ПВХ панели',
+                imitation: 'Имитация бруса'
             };
             const floorNames = {
                 none: 'Обрезная доска 25мм',
                 osb12: 'ОСБ 12мм',
-                osb18: 'ОСБ 18мм',
-                tongue28: 'Шпунтованная доска 28мм',
-                tongue36: 'Шпунтованная доска 36мм'
+                tongue28: 'Шпунтованная доска 28мм'
             };
             
-            text += `  - Снаружи: ${extNames[state.selCustomExterior]}\n`;
-            text += `  - Внутри: ${intNames[state.selCustomInterior]}\n`;
-            text += `  - Утепление: ${state.selCustomInsulation === '0' ? 'Без утепления' : state.selCustomInsulation + ' мм'}\n`;
-            text += `  - Пол: ${floorNames[state.selCustomFloor]}\n`;
+            text += `  - Снаружи: ${extNames[state.selCustomExterior] || 'Базовая'}\n`;
+            text += `  - Внутри: ${intNames[state.selCustomInterior] || 'Базовая'}\n`;
+            text += `  - Утепление: ${state.selCustomInsulation === 'cold' ? 'Холодный контур' : (state.selCustomInsulation === '0' ? 'Без утепления' : state.selCustomInsulation + ' мм')}\n`;
+            text += `  - Пол: ${floorNames[state.selCustomFloor] || 'Базовая'}\n`;
+            
+            if (state.chkCustomVeranda) {
+                const verandaTypeNames = {
+                    freestanding: 'Отдельностоящая / крыльцо',
+                    high_roof: 'С высокой крышей'
+                };
+                text += `  - Веранда: ${verandaTypeNames[state.customVerandaType]} (${state.customVerandaWidth.toFixed(1)} м)\n`;
+            }
         }
 
         text += `------------------------------------\n`;
 
-        // Recalculating subtotals for summary formatting
-        let basePrice = 0;
-        let assemblyPrice = 0;
-        let floorSum = 0;
-        let insulationSum = 0;
-
-        if (state.calculatorMode === 'custom') {
-            const baseRate = customRates[`rate_${state.customType}`] || 8000;
-            basePrice = area * baseRate;
-            
-            if (state.chkCustomVeranda) {
-                const verandaArea = state.customLength * state.customVerandaWidth;
-                floorSum += verandaArea * customRates.rate_veranda;
-            }
-            
-            const wallArea = perimeter * state.customHeight;
-            if (state.selCustomExterior !== 'none') {
-                floorSum += wallArea * (customRates[`rate_ext_${state.selCustomExterior}`] || 0);
-            }
-            if (state.selCustomInterior !== 'none') {
-                floorSum += wallArea * (customRates[`rate_int_${state.selCustomInterior}`] || 0);
-            }
-            if (state.selCustomFloor !== 'none') {
-                floorSum += area * (customRates[`rate_floor_${state.selCustomFloor}`] || 0);
-            }
-            if (state.selCustomInsulation !== '50' && state.selCustomInsulation !== '0') {
-                insulationSum = area * (customRates[`rate_ins_${state.selCustomInsulation}`] || 0);
-            }
-            if (state.chkCustomAssembly) {
-                assemblyPrice = Math.round(area * customRates.rate_assembly);
-            }
-        } else {
-            const size = model.sizes.find(s => s.id === state.selectedSizeId);
-            const finish = model.finishes[state.selectedFinishIdx];
-            
-            if (model.name.includes("Дачный дом \"Каркасный\"")) {
-                if (finish.name.includes("Вагонка 'ВС'")) {
-                    basePrice = area * state.houseTypeRate;
-                } else if (finish.name.includes("Имитация бруса")) {
-                    const wallArea = perimeter * state.houseTypeHeight;
-                    basePrice = (area * state.houseTypeRate) + wallArea * 250;
-                } else {
-                    basePrice = finish.prices[size.id] || 0;
-                }
-            } else {
-                basePrice = finish.prices[size.id] || 0;
-            }
-
-            if (state.isAssemblyChecked) {
-                assemblyPrice = finish.assembly[size.id] || model.assembly?.[size.id] || 0;
-            }
-
-            state.selectedFloorOptionIds.forEach(id => {
-                const opt = model.floorOptions.find(o => o.id === id);
-                if (opt) floorSum += (opt.prices[size.id] || 0);
-            });
-
-            state.selectedInsulationIds.forEach(id => {
-                const opt = model.insulation.find(o => o.id === id);
-                if (opt) insulationSum += (opt.prices[size.id] || 0);
-            });
-        }
+        const basePrice = state.basePrice || 0;
+        const assemblyPrice = state.assemblyPrice || 0;
+        const floorSum = state.floorSum || 0;
+        const insulationSum = state.insulationSum || 0;
+        const additionsSum = state.additionsSum || 0;
+        const deliveryPrice = state.deliveryPrice || 0;
+        const discountVal = state.discountVal || 0;
+        const vatVal = state.vatVal || 0;
+        const finalTotal = state.finalTotal || 0;
 
         text += `• База: ${basePrice.toLocaleString('ru-RU')} руб.\n`;
         if (assemblyPrice > 0) text += `• Сборка: ${assemblyPrice.toLocaleString('ru-RU')} руб.\n`;
@@ -915,56 +1132,26 @@
         if (insulationSum > 0) text += `• Утепление: ${insulationSum.toLocaleString('ru-RU')} руб.\n`;
 
         // Additions loop
-        let addsText = "";
-        model.additions.forEach(add => {
-            const qty = state.additionQuantities[add.id] || 0;
-            if (qty > 0) {
-                addsText += `  - ${add.name}: ${qty} шт. (${(qty * add.price).toLocaleString('ru-RU')} руб.)\n`;
-            }
-        });
-        if (addsText) {
-            text += `➕ Доп. опции:\n${addsText}`;
+        if (state.selectedAdditionsText && state.selectedAdditionsText.length > 0) {
+            text += `➕ Доп. опции:\n`;
+            state.selectedAdditionsText.forEach(item => {
+                text += `  - ${item.name}: ${item.qty} шт. (${item.total.toLocaleString('ru-RU')} руб.)\n`;
+            });
         }
 
         // Delivery
-        if (state.deliveryDistance > 0) {
-            const baseDist = state.calculatorMode === 'custom' ? customRates.delivery_base_dist : model.delivery.baseDistance;
-            const baseCost = state.calculatorMode === 'custom' ? customRates.delivery_base_price : model.delivery.basePrice;
-            const kmRate = state.calculatorMode === 'custom' ? customRates.delivery_price_km : model.delivery.pricePerKm;
-            const delPrice = state.deliveryDistance <= baseDist ? baseCost : baseCost + (state.deliveryDistance - baseDist) * kmRate;
-            text += `🚚 Доставка (${state.deliveryDistance} км): ${delPrice.toLocaleString('ru-RU')} руб.\n`;
+        if (deliveryPrice > 0) {
+            text += `🚚 Доставка (${state.deliveryDistance} км): ${deliveryPrice.toLocaleString('ru-RU')} руб.\n`;
         } else {
             text += `🚚 Доставка: Самовывоз (0 руб.)\n`;
         }
 
-        // Discount & VAT
-        const subtotal = basePrice + assemblyPrice + floorSum + insulationSum;
-        let additionsSum = 0;
-        model.additions.forEach(add => {
-            const qty = state.additionQuantities[add.id] || 0;
-            additionsSum += qty * add.price;
-        });
-        const rawTotal = subtotal + additionsSum;
-
         if (state.isDiscountChecked) {
-            const disc = Math.round(rawTotal * 0.1);
-            text += `🏷️ Скидка 10%: -${disc.toLocaleString('ru-RU')} руб.\n`;
+            text += `🏷️ Скидка 10%: -${discountVal.toLocaleString('ru-RU')} руб.\n`;
         }
         if (state.isVatChecked) {
-            const discVal = state.isDiscountChecked ? Math.round(rawTotal * 0.1) : 0;
-            const vat = Math.round((rawTotal - discVal) * 0.2);
-            text += `🏦 НДС 20%: +${vat.toLocaleString('ru-RU')} руб.\n`;
+            text += `🏦 НДС 20%: +${vatVal.toLocaleString('ru-RU')} руб.\n`;
         }
-
-        let deliveryPrice = 0;
-        if (state.deliveryDistance > 0) {
-            const baseDist = state.calculatorMode === 'custom' ? customRates.delivery_base_dist : model.delivery.baseDistance;
-            const baseCost = state.calculatorMode === 'custom' ? customRates.delivery_base_price : model.delivery.basePrice;
-            const kmRate = state.calculatorMode === 'custom' ? customRates.delivery_price_km : model.delivery.pricePerKm;
-            deliveryPrice = state.deliveryDistance <= baseDist ? baseCost : baseCost + (state.deliveryDistance - baseDist) * kmRate;
-        }
-
-        const finalTotal = rawTotal - (state.isDiscountChecked ? Math.round(rawTotal * 0.1) : 0) + (state.isVatChecked ? Math.round((rawTotal - (state.isDiscountChecked ? Math.round(rawTotal * 0.1) : 0)) * 0.2) : 0) + deliveryPrice;
 
         text += `------------------------------------\n`;
         text += `💰 ИТОГО К ОПЛАТЕ: ${finalTotal.toLocaleString('ru-RU')} руб.\n`;
@@ -1166,6 +1353,11 @@
             state[el.id] = e.target.value;
             calculateBill();
         });
+    });
+
+    selCustomVerandaType.addEventListener('change', (e) => {
+        state.customVerandaType = e.target.value;
+        calculateBill();
     });
 
     chkCustomAssembly.addEventListener('change', (e) => {
