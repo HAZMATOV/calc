@@ -21,7 +21,7 @@
         { id: "win_lux_150_190_po", name: "Окно ПВХ 1-камерный 150х190 поворотно-откидное", price: 25000, type: "quantity", quantity: 0 },
         { id: "win_lux_180_190_po", name: "Окно ПВХ 1-камерный 180х190 поворотно-откидное", price: 26000, type: "quantity", quantity: 0 },
         { id: "win_lux_180_200_po", name: "Окно ПВХ 1-камерный 180х200 поворотно-откидное", price: 30000, type: "quantity", quantity: 0 },
-
+ 
         { id: "pile_76_1500", name: "Свая винтовая 76/1500", price: 3550, type: "quantity", quantity: 0 },
         { id: "pile_76_2000", name: "Свая винтовая 76/2000", price: 3700, type: "quantity", quantity: 0 },
         { id: "pile_76_2500", name: "Свая винтовая 76/2500", price: 4000, type: "quantity", quantity: 0 },
@@ -33,28 +33,41 @@
         { id: "pile_108_2500", name: "Свая винтовая 108/2500", price: 5100, type: "quantity", quantity: 0 },
         { id: "pile_108_3000", name: "Свая винтовая 108/3000", price: 5600, type: "quantity", quantity: 0 },
         { id: "pile_delivery", name: "Доставка свай (70 р/км)", price: 70, type: "quantity", quantity: 0 },
-
+ 
         { id: "freestanding_porch", name: "Отдельностоящее крыльцо (за м²)", price: 7500, type: "quantity", quantity: 0 },
+        { id: "partition_imitation_b", name: "Перегородка Имитация бруса \"В\" (за м.п.)", price: 4000, type: "quantity", quantity: 0 },
         { id: "partition_lining_bc_ins", name: "Перегородка Вагонка \"ВС\" с утеплителем (за м.п.)", price: 4000, type: "quantity", quantity: 0 },
         { id: "partition_lining_bc", name: "Перегородка Вагонка \"ВС\" (за м.п.)", price: 3500, type: "quantity", quantity: 0 },
         { id: "roof_end_door", name: "Дверца в торце крыши", price: 5000, type: "quantity", quantity: 0 },
-
+ 
         { id: "block_pads", name: "Подушки под блоки (за шт)", price: 1200, type: "quantity", quantity: 0 },
         { id: "veranda_ceiling_board", name: "Зашить потолок веранды (за м²)", price: 1000, type: "quantity", quantity: 0 },
+        { id: "door_metal_12", name: "Дверь металлическая (Россия) (12 000 р)", price: 12000, type: "quantity", quantity: 0 },
+        { id: "door_panel_6", name: "Дверь филенчатая деревянная (6 000 р)", price: 6000, type: "quantity", quantity: 0 },
+        { id: "door_pvc_35", name: "Дверь входная ПВХ (35 000 р)", price: 35000, type: "quantity", quantity: 0 },
         { id: "door_wood_double", name: "Дверь деревянная распашная 1.4х1.9 м", price: 3000, type: "quantity", quantity: 0 },
         { id: "ramp", name: "Пандус", price: 2000, type: "quantity", quantity: 0 },
         { id: "antiseptic_lag", name: "Антисептик лаг, обрешетки (за м²)", price: 350, type: "area", quantity: 0 },
+ 
+        { id: "floor_tongue_28_add", name: "Пол: Шпунтованная доска 28 мм (за м²)", price: 1000, type: "area", quantity: 0 },
+        { id: "floor_osb_12_add", name: "Пол: ОСБ 12 мм (за м²)", price: 500, type: "area", quantity: 0 },
+        { id: "floor_osb_18_add", name: "Пол: ОСБ 18 мм (за м²)", price: 700, type: "area", quantity: 0 },
+        { id: "floor_board_35_150_add", name: "Пол: Доска обрезная 35х150 мм (за м²)", price: 500, type: "area", quantity: 0 },
+ 
+        { id: "ins_basalt_ceiling_200", name: "Утепление: 200 мм базальтовая плита потолка (за м²)", price: 1000, type: "area", quantity: 0 },
+        { id: "ins_basalt_floor_200", name: "Утепление: 200 мм базальтовая плита пола (за м²)", price: 1000, type: "area", quantity: 0 },
+ 
         { id: "roof_double_pitch_1800", name: "Крыша двухскатная с коньком 40-70 см (+1800 р/м² площади)", price: 1800, type: "area", quantity: 0 },
         { id: "roof_double_pitch_flat", name: "Двухскатная крыша (увеличение стоимости) (10 000 р)", price: 10000, type: "quantity", quantity: 0 },
-
-        { id: "profile_harness", name: "Обвязка профилем 20х40 одной линией (периметр * 450 р)", price: 450, type: "area", quantity: 0 },
-
+ 
+        { id: "profile_harness", name: "Обвязка свай профилем 20х40 одной линией (периметр * 450 р)", price: 450, type: "area", quantity: 0 },
+ 
         { id: "roof_metal", name: "Кровля: Металлочерепица (+1500 р/м²)", price: 1500, type: "area", quantity: 0 },
         { id: "roof_proflist", name: "Кровля: Профлист С8 цветной (+750 р/м²)", price: 750, type: "area", quantity: 0 },
         { id: "frame_upgrade", name: "Замена каркаса 50/100 на 50/150 без утепления (+2000 р/м²)", price: 2000, type: "area", quantity: 0 },
         { id: "vent_gap", name: "Вентзазор (периметр * 2000 р)", price: 2000, type: "area", quantity: 0 },
         { id: "roof_overhangs", name: "Свесы на кровле до 30 см (периметр * 1200 р)", price: 1200, type: "area", quantity: 0 },
-
+ 
         { id: "generator_daily", name: "Генератор (сутки)", price: 2500, type: "quantity", quantity: 0 },
         { id: "material_carry", name: "Пронос материала свыше 20 м (за каждые 10 м)", price: 5000, type: "quantity", quantity: 0 },
         { id: "long_ladder", name: "Лестница на всю длину", price: 20000, type: "quantity", quantity: 0 }
@@ -414,18 +427,14 @@
         let insHTML = '';
         if (type === 'house_high') {
             insHTML = `
-                <option value="100_base">минеральная вата 100 мм (базовая, включена)</option>
-                <option value="100">100 мм мин. вата (по формуле)</option>
-                <option value="200_ceiling">200 мм базальтовая плита потолка</option>
-                <option value="200_floor">200 мм базальтовая плита пола</option>
+                <option value="100_base">100 мм базальтовая плита (базовая, включена)</option>
+                <option value="150">150 мм базальтовая плита (+3 500 р/м²)</option>
                 <option value="cold">Без утеплителя / холодный контур (ХК)</option>
             `;
         } else {
             insHTML = `
                 <option value="50">50 мм мин. вата (включено)</option>
-                <option value="100">100 мм мин. вата (по формуле)</option>
-                <option value="200_ceiling">200 мм базальтовая плита потолка</option>
-                <option value="200_floor">200 мм базальтовая плита пола</option>
+                <option value="100">100 мм базальтовая плита (по формуле)</option>
                 <option value="0">Без утепления</option>
             `;
         }
@@ -469,10 +478,10 @@
     function renderModelUI() {
         if (state.calculatorMode === 'custom') {
             // Render Custom Constructor sliders labels
-            lblCustomLength.textContent = `${state.customLength.toFixed(1)} м`;
-            lblCustomWidth.textContent = `${state.customWidth.toFixed(1)} м`;
+            lblCustomLength.textContent = `${Math.round(state.customLength)} м`;
+            lblCustomWidth.textContent = `${Math.round(state.customWidth)} м`;
             lblCustomHeight.textContent = `${state.customHeight.toFixed(1)} м`;
-            lblCustomVerandaWidth.textContent = `${state.customVerandaWidth.toFixed(1)} м`;
+            lblCustomVerandaWidth.textContent = `${Math.round(state.customVerandaWidth)} м`;
             
             if (state.chkCustomVeranda) {
                 lblCustomVerandaWidth.style.display = 'inline';
@@ -684,6 +693,13 @@
         }
 
         model.additions.forEach(add => {
+            // Filter out double-pitch additions for high roof custom structures
+            if (state.calculatorMode === 'custom' && state.customType === 'house_high') {
+                if (add.id === 'roof_double_pitch_1800' || add.id === 'roof_double_pitch_flat') {
+                    return;
+                }
+            }
+
             // Apply filtering logic
             if (activeAdditionFilter !== 'all') {
                 const nameLower = add.name.toLowerCase();
@@ -693,8 +709,10 @@
                     if (!nameLower.includes('двер')) return;
                 } else if (activeAdditionFilter === 'area') {
                     if (add.type !== 'area' && !nameLower.includes('пол') && !nameLower.includes('ваг') && !nameLower.includes('осб') && !nameLower.includes('стена') && !nameLower.includes('покраск')) return;
+                } else if (activeAdditionFilter === 'piles') {
+                    if (!nameLower.includes('сва') && !nameLower.includes('обвязк')) return;
                 } else if (activeAdditionFilter === 'other') {
-                    if (nameLower.includes('окн') || nameLower.includes('двер') || add.type === 'area' || nameLower.includes('пол') || nameLower.includes('ваг') || nameLower.includes('осб') || nameLower.includes('стена') || nameLower.includes('покраск')) return;
+                    if (nameLower.includes('окн') || nameLower.includes('двер') || add.type === 'area' || nameLower.includes('пол') || nameLower.includes('ваг') || nameLower.includes('осб') || nameLower.includes('стена') || nameLower.includes('покраск') || nameLower.includes('сва') || nameLower.includes('обвязк')) return;
                 }
             }
 
@@ -820,8 +838,11 @@
             // Veranda Cost
             let verandaCost = 0;
             if (state.chkCustomVeranda) {
-                if (state.customType === 'house_low_osb' || state.customType === 'house_low_lining') {
-                    const verandaArea = state.customLength * state.customVerandaWidth;
+                const verandaArea = state.customLength * state.customVerandaWidth;
+                if (state.customType === 'house_high') {
+                    verandaCost = verandaArea * 9000;
+                    floorSum += verandaCost;
+                } else if (state.customType === 'house_low_osb' || state.customType === 'house_low_lining') {
                     verandaCost = verandaArea * 7500;
                     floorSum += verandaCost;
                 } else {
@@ -901,6 +922,8 @@
             if (state.selCustomInsulation === '100') {
                 const insArea = (state.customWidth * 2 * 2.5) + (state.customLength * 2 * 2.5) + area + area;
                 insulationSum = insArea * (customRates.rate_ins_100 || 300);
+            } else if (state.selCustomInsulation === '150') {
+                insulationSum = area * 3500;
             } else if (state.selCustomInsulation === '200_ceiling') {
                 insulationSum = area * (customRates.rate_ins_200_ceiling || 1000);
             } else if (state.selCustomInsulation === '200_floor') {
@@ -1160,11 +1183,21 @@
             
             text += `  - Снаружи: ${extNames[state.selCustomExterior] || 'Базовая'}\n`;
             text += `  - Внутри: ${intNames[state.selCustomInterior] || 'Базовая'}\n`;
-            text += `  - Утепление: ${state.selCustomInsulation === 'cold' ? 'Холодный контур' : (state.selCustomInsulation === '0' ? 'Без утепления' : state.selCustomInsulation + ' мм')}\n`;
+            let insText = '';
+            if (state.selCustomInsulation === 'cold') {
+                insText = 'Холодный контур';
+            } else if (state.selCustomInsulation === '0') {
+                insText = 'Без утепления';
+            } else if (state.selCustomInsulation === '100_base') {
+                insText = '100 мм базальтовая плита (базовая)';
+            } else {
+                insText = state.selCustomInsulation + ' мм базальтовая плита';
+            }
+            text += `  - Утепление: ${insText}\n`;
             text += `  - Пол: ${floorNames[state.selCustomFloor] || 'Базовая'}\n`;
             
             if (state.chkCustomVeranda) {
-                text += `  - Веранда (${state.customVerandaWidth.toFixed(1)} м)\n`;
+                text += `  - Веранда (${Math.round(state.customVerandaWidth)} м)\n`;
             }
         }
 

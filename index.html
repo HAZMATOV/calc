@@ -126,7 +126,7 @@
                                 <span id="lblCustomLength" style="color:var(--primary); font-weight:800;">6.0 м</span>
                             </div>
                             <div class="range-wrap">
-                                <input type="range" id="customLengthSlider" min="2" max="12" step="0.5" value="6">
+                                <input type="range" id="customLengthSlider" min="2" max="12" step="1" value="6">
                             </div>
                         </div>
                         <div class="option-row" style="flex-direction: column; align-items: stretch; gap: 8px;">
@@ -135,7 +135,7 @@
                                 <span id="lblCustomWidth" style="color:var(--primary); font-weight:800;">3.0 м</span>
                             </div>
                             <div class="range-wrap">
-                                <input type="range" id="customWidthSlider" min="2" max="10" step="0.5" value="3">
+                                <input type="range" id="customWidthSlider" min="2" max="10" step="1" value="3">
                             </div>
                         </div>
                         <div class="option-row" style="flex-direction: column; align-items: stretch; gap: 8px;">
@@ -156,7 +156,7 @@
                                 <span id="lblCustomVerandaWidth" style="color:var(--primary); font-weight: 800; display: none;">2.0 м</span>
                             </div>
                             <div class="range-wrap" id="customVerandaSliderWrap" style="display: none;">
-                                <input type="range" id="customVerandaSlider" min="1" max="4" step="0.5" value="2">
+                                <input type="range" id="customVerandaSlider" min="1" max="4" step="1" value="2">
                             </div>
                             <div class="option-row" id="customVerandaTypeWrap" style="display: none; flex-direction: column; align-items: stretch; gap: 6px;">
                                 <label style="font-weight: 600; font-size: 13px;">Тип веранды:</label>
@@ -193,7 +193,7 @@
                             </select>
                         </div>
                         <div class="option-row" style="flex-direction: column; align-items: stretch; gap: 6px;">
-                            <label style="font-weight: 600;">Утепление (минеральная вата):</label>
+                            <label style="font-weight: 600;">Утепление:</label>
                             <select id="selCustomInsulation" style="padding:10px; border-radius:var(--radius-sm); border:1px solid var(--border-color); background:var(--bg-card); color:var(--text-main); font-weight: 500;">
                                 <option value="50">50 мм (включено в базовую цену)</option>
                                 <option value="100">100 мм (+550 р/м² пола)</option>
@@ -281,6 +281,7 @@
                     <button class="filter-btn" data-filter="windows">Окна</button>
                     <button class="filter-btn" data-filter="doors">Двери</button>
                     <button class="filter-btn" data-filter="area">Отделка и полы</button>
+                    <button class="filter-btn" data-filter="piles">Сваи</button>
                     <button class="filter-btn" data-filter="other">Прочее</button>
                 </div>
                 <div class="options-list" id="additionsList"></div>
