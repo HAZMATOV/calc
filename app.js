@@ -3,24 +3,24 @@
 (function () {
     // 1. Data & State Initialization
     const SHARED_ADDITIONS = [
-        { id: "win_lux_50_50_p", name: "Окно ПВХ ЛЮКС 50х50 поворотное", price: 5500, type: "quantity", quantity: 0 },
-        { id: "win_lux_50_50_po2", name: "Окно ПВХ ЛЮКС 50х50 (2 камеры) поворотно-откидное", price: 8500, type: "quantity", quantity: 0 },
-        { id: "win_lux_60_90_po", name: "Окно ПВХ ЛЮКС 60х90 поворотно-откидное", price: 7500, type: "quantity", quantity: 0 },
-        { id: "win_lux_60_120_po", name: "Окно ПВХ ЛЮКС 60х120 поворотно-откидное", price: 10000, type: "quantity", quantity: 0 },
-        { id: "win_lux_60_180_po", name: "Окно ПВХ ЛЮКС 60х180 поворотно-откидное", price: 12000, type: "quantity", quantity: 0 },
-        { id: "win_lux_100_100_po", name: "Окно ПВХ ЛЮКС 100х100 поворотно-откидное", price: 9000, type: "quantity", quantity: 0 },
-        { id: "win_lux_100_120_po1", name: "Окно ПВХ ЛЮКС 100х120 (1 камера) поворотно-откидное", price: 11000, type: "quantity", quantity: 0 },
-        { id: "win_lux_100_120_po2", name: "Окно ПВХ ЛЮКС 100х120 (2 камеры) поворотно-откидное", price: 14000, type: "quantity", quantity: 0 },
-        { id: "win_lux_120_120_po", name: "Окно ПВХ ЛЮКС 120х120 поворотно-откидное", price: 13000, type: "quantity", quantity: 0 },
-        { id: "win_lux_100_140_po", name: "Окно ПВХ ЛЮКС 100х140 поворотно-откидное", price: 14000, type: "quantity", quantity: 0 },
-        { id: "win_lux_100_150_po", name: "Окно ПВХ ЛЮКС 100х150 поворотно-откидное", price: 15000, type: "quantity", quantity: 0 },
-        { id: "win_lux_120_150_po", name: "Окно ПВХ ЛЮКС 120х150 поворотно-откидное", price: 16500, type: "quantity", quantity: 0 },
-        { id: "win_lux_140_150_po", name: "Окно ПВХ ЛЮКС 140х150 поворотно-откидное", price: 17000, type: "quantity", quantity: 0 },
-        { id: "win_lux_150_150_po", name: "Окно ПВХ ЛЮКС 150х150 поворотно-откидное", price: 17500, type: "quantity", quantity: 0 },
-        { id: "win_lux_150_100_po", name: "Окно ПВХ ЛЮКС 150х100 поворотно-откидное", price: 18000, type: "quantity", quantity: 0 },
-        { id: "win_lux_150_190_po", name: "Окно ПВХ ЛЮКС 150х190 поворотно-откидное", price: 25000, type: "quantity", quantity: 0 },
-        { id: "win_lux_180_190_po", name: "Окно ПВХ ЛЮКС 180х190 поворотно-откидное", price: 26000, type: "quantity", quantity: 0 },
-        { id: "win_lux_180_200_po", name: "Окно ПВХ ЛЮКС 180х200 поворотно-откидное", price: 30000, type: "quantity", quantity: 0 },
+        { id: "win_lux_50_50_p", name: "Окно ПВХ 1-камерный 50х50 поворотное", price: 5500, type: "quantity", quantity: 0 },
+        { id: "win_lux_50_50_po2", name: "Окно ПВХ 50х50 (2 камеры) поворотно-откидное", price: 9000, type: "quantity", quantity: 0 },
+        { id: "win_lux_60_90_po", name: "Окно ПВХ 1-камерный 60х90 поворотно-откидное", price: 7500, type: "quantity", quantity: 0 },
+        { id: "win_lux_60_120_po", name: "Окно ПВХ 1-камерный 60х120 поворотно-откидное", price: 10000, type: "quantity", quantity: 0 },
+        { id: "win_lux_60_180_po", name: "Окно ПВХ 1-камерный 60х180 поворотно-откидное", price: 12000, type: "quantity", quantity: 0 },
+        { id: "win_lux_100_100_po", name: "Окно ПВХ 1-камерный 100х100 поворотно-откидное", price: 9000, type: "quantity", quantity: 0 },
+        { id: "win_lux_100_120_po1", name: "Окно ПВХ 1-камерный 100х120 поворотно-откидное", price: 11000, type: "quantity", quantity: 0 },
+        { id: "win_lux_100_120_po2", name: "Окно ПВХ 100х120 (2 камеры) поворотно-откидное", price: 14000, type: "quantity", quantity: 0 },
+        { id: "win_lux_120_120_po", name: "Окно ПВХ 1-камерный 120х120 поворотно-откидное", price: 13000, type: "quantity", quantity: 0 },
+        { id: "win_lux_100_140_po", name: "Окно ПВХ 1-камерный 100х140 поворотно-откидное", price: 14000, type: "quantity", quantity: 0 },
+        { id: "win_lux_100_150_po", name: "Окно ПВХ 1-камерный 100х150 поворотно-откидное", price: 15000, type: "quantity", quantity: 0 },
+        { id: "win_lux_120_150_po", name: "Окно ПВХ 1-камерный 120х150 поворотно-откидное", price: 16500, type: "quantity", quantity: 0 },
+        { id: "win_lux_140_150_po", name: "Окно ПВХ 1-камерный 140х150 поворотно-откидное", price: 17000, type: "quantity", quantity: 0 },
+        { id: "win_lux_150_150_po", name: "Окно ПВХ 1-камерный 150х150 поворотно-откидное", price: 17500, type: "quantity", quantity: 0 },
+        { id: "win_lux_150_100_po", name: "Окно ПВХ 1-камерный 150х100 поворотно-откидное", price: 18000, type: "quantity", quantity: 0 },
+        { id: "win_lux_150_190_po", name: "Окно ПВХ 1-камерный 150х190 поворотно-откидное", price: 25000, type: "quantity", quantity: 0 },
+        { id: "win_lux_180_190_po", name: "Окно ПВХ 1-камерный 180х190 поворотно-откидное", price: 26000, type: "quantity", quantity: 0 },
+        { id: "win_lux_180_200_po", name: "Окно ПВХ 1-камерный 180х200 поворотно-откидное", price: 30000, type: "quantity", quantity: 0 },
 
         { id: "pile_76_1500", name: "Свая винтовая 76/1500", price: 3550, type: "quantity", quantity: 0 },
         { id: "pile_76_2000", name: "Свая винтовая 76/2000", price: 3700, type: "quantity", quantity: 0 },
@@ -32,7 +32,20 @@
         { id: "pile_108_2000", name: "Свая винтовая 108/2000", price: 4700, type: "quantity", quantity: 0 },
         { id: "pile_108_2500", name: "Свая винтовая 108/2500", price: 5100, type: "quantity", quantity: 0 },
         { id: "pile_108_3000", name: "Свая винтовая 108/3000", price: 5600, type: "quantity", quantity: 0 },
-        { id: "pile_delivery_60", name: "Доставка свай (60 р/км)", price: 60, type: "area", quantity: 0 },
+        { id: "pile_delivery", name: "Доставка свай (70 р/км)", price: 70, type: "quantity", quantity: 0 },
+
+        { id: "freestanding_porch", name: "Отдельностоящее крыльцо (за м²)", price: 7500, type: "quantity", quantity: 0 },
+        { id: "partition_lining_bc_ins", name: "Перегородка Вагонка \"ВС\" с утеплителем (за м.п.)", price: 4000, type: "quantity", quantity: 0 },
+        { id: "partition_lining_bc", name: "Перегородка Вагонка \"ВС\" (за м.п.)", price: 3500, type: "quantity", quantity: 0 },
+        { id: "roof_end_door", name: "Дверца в торце крыши", price: 5000, type: "quantity", quantity: 0 },
+
+        { id: "block_pads", name: "Подушки под блоки (за шт)", price: 1200, type: "quantity", quantity: 0 },
+        { id: "veranda_ceiling_board", name: "Зашить потолок веранды (за м²)", price: 1000, type: "quantity", quantity: 0 },
+        { id: "door_wood_double", name: "Дверь деревянная распашная 1.4х1.9 м", price: 3000, type: "quantity", quantity: 0 },
+        { id: "ramp", name: "Пандус", price: 2000, type: "quantity", quantity: 0 },
+        { id: "antiseptic_lag", name: "Антисептик лаг, обрешетки (за м²)", price: 350, type: "area", quantity: 0 },
+        { id: "roof_double_pitch_1800", name: "Крыша двухскатная с коньком 40-70 см (+1800 р/м² площади)", price: 1800, type: "area", quantity: 0 },
+        { id: "roof_double_pitch_flat", name: "Двухскатная крыша (увеличение стоимости) (10 000 р)", price: 10000, type: "quantity", quantity: 0 },
 
         { id: "profile_harness", name: "Обвязка профилем 20х40 одной линией (периметр * 450 р)", price: 450, type: "area", quantity: 0 },
 
@@ -54,7 +67,7 @@
         rate_house_low_lining: 10000,
         rate_cabin: 8000,
         rate_hozblok: 5500,
-        rate_veranda: 7500,
+        rate_veranda: 9000,
         rate_ext_imitation: 250,
         rate_ext_blockhouse: 1000,
         rate_ext_proflist: 300,
@@ -63,16 +76,16 @@
         rate_int_lining: 400,
         rate_int_mdf: 500,
         rate_int_pvc: 500,
-        rate_ins_100: 550,
-        rate_ins_150: 1000,
-        rate_ins_200: 1500,
+        rate_ins_100: 300,
+        rate_ins_200_ceiling: 1000,
+        rate_ins_200_floor: 1000,
         rate_floor_osb12: 500,
         rate_floor_osb18: 700,
         rate_floor_tongue28: 1000,
         rate_floor_tongue36: 1250,
         rate_assembly: 1000,
-        delivery_base_dist: 50,
-        delivery_base_price: 12000,
+        delivery_base_dist: 0,
+        delivery_base_price: 7000,
         delivery_price_km: 200
     };
     
@@ -111,6 +124,9 @@
                 if (nameLower.includes('генератор')) return false;
                 if (nameLower.includes('перенос материала') || nameLower.includes('пронос материала')) return false;
                 if (nameLower.includes('лестница')) return false;
+                if (nameLower.includes('имитация бс') && nameLower.includes('+400')) return false;
+                if (nameLower.includes('имитация аб') && nameLower.includes('+650')) return false;
+                if (nameLower.includes('перегород') && (nameLower.includes('р/мп') || nameLower.includes('р/мп.') || nameLower.includes('р/м.п.'))) return false;
                 return true;
             });
             // Prepend new shared additions
@@ -127,8 +143,11 @@
 
             // Update delivery rate
             if (model.delivery) {
+                model.delivery.baseDistance = 0;
+                model.delivery.basePrice = 7000;
                 model.delivery.pricePerKm = 200;
-                model.delivery.notes = `Доставка: до ${model.delivery.baseDistance} км = ${model.delivery.basePrice} р. свыше по 200 р/км`;
+                model.delivery.minPrice = 7000;
+                model.delivery.notes = `Доставка: 200 р/км, мин. 7000 р.`;
             }
         });
     }
@@ -395,19 +414,19 @@
         let insHTML = '';
         if (type === 'house_high') {
             insHTML = `
-                <option value="100">минеральная вата 100 мм (базовая)</option>
-                <option value="izobel_100">100 мм базальтовая плита Izobel (+300 р/м²)</option>
-                <option value="izobel_150">150 мм с заменой каркаса Izobel (+3500 р/м²)</option>
-                <option value="izobel_200">200 мм с заменой каркаса (+4500 р/м²)</option>
+                <option value="100_base">минеральная вата 100 мм (базовая, включена)</option>
+                <option value="100">100 мм мин. вата (по формуле)</option>
+                <option value="200_ceiling">200 мм базальтовая плита потолка</option>
+                <option value="200_floor">200 мм базальтовая плита пола</option>
                 <option value="cold">Без утеплителя / холодный контур (ХК)</option>
             `;
         } else {
             insHTML = `
-                <option value="50">50 мм (включено)</option>
-                <option value="100">100 мм (+550 р/м²)</option>
-                <option value="150">150 мм (+1000 р/м²)</option>
-                <option value="200">200 мм (+1500 р/м²)</option>
-                <option value="0">Без утеплителя</option>
+                <option value="50">50 мм мин. вата (включено)</option>
+                <option value="100">100 мм мин. вата (по формуле)</option>
+                <option value="200_ceiling">200 мм базальтовая плита потолка</option>
+                <option value="200_floor">200 мм базальтовая плита пола</option>
+                <option value="0">Без утепления</option>
             `;
         }
         
@@ -416,7 +435,7 @@
         if (selCustomInsulation.querySelector(`option[value="${prevIns}"]`)) {
             selCustomInsulation.value = prevIns;
         } else {
-            selCustomInsulation.value = type === 'house_high' ? '100' : '50';
+            selCustomInsulation.value = type === 'house_high' ? '100_base' : '50';
         }
         state.selCustomInsulation = selCustomInsulation.value;
 
@@ -458,7 +477,7 @@
             if (state.chkCustomVeranda) {
                 lblCustomVerandaWidth.style.display = 'inline';
                 customVerandaSliderWrap.style.display = 'flex';
-                customVerandaTypeWrap.style.display = 'flex';
+                customVerandaTypeWrap.style.display = 'none';
             } else {
                 lblCustomVerandaWidth.style.display = 'none';
                 customVerandaSliderWrap.style.display = 'none';
@@ -478,7 +497,7 @@
             
             // Render Additions and Delivery notes
             renderAdditions();
-            deliveryTerms.textContent = `Доставка (бесплатно до ${customRates.delivery_base_dist} км, далее ${customRates.delivery_price_km} руб/км):`;
+            deliveryTerms.textContent = `Доставка (${customRates.delivery_price_km} руб/км, мин. ${customRates.delivery_base_price} руб):`;
             
         } else {
             // Render Standard Excel sheet Mode
@@ -786,7 +805,7 @@
             if (state.customType === 'house_high' && state.selCustomInsulation === 'cold') {
                 baseRate = 9500;
             }
-            basePrice = area * baseRate;
+            basePrice = Math.round(area * baseRate * (Math.round((state.customHeight / 2.4) * 100) / 100));
             
             // Structure Label
             const structNames = {
@@ -801,10 +820,41 @@
             // Veranda Cost
             let verandaCost = 0;
             if (state.chkCustomVeranda) {
-                const verandaArea = state.customLength * state.customVerandaWidth;
-                const vRate = state.customVerandaType === 'high_roof' ? 9500 : 7500;
-                verandaCost = verandaArea * vRate;
-                floorSum += verandaCost;
+                if (state.customType === 'house_low_osb' || state.customType === 'house_low_lining') {
+                    const verandaArea = state.customLength * state.customVerandaWidth;
+                    verandaCost = verandaArea * 7500;
+                    floorSum += verandaCost;
+                } else {
+                    const l = state.customLength;
+                    const w = state.customVerandaWidth;
+                    const key = `${l}x${w}`;
+                    const standardPrices = {
+                        "3x2": { price: 45000, assembly: 10000 },
+                        "4x2": { price: 50000, assembly: 11000 },
+                        "5x2": { price: 56000, assembly: 13000 },
+                        "6x2": { price: 59000, assembly: 14000 },
+                        "3x3": { price: 54000, assembly: 10000 },
+                        "4x3": { price: 63000, assembly: 14000 },
+                        "5x3": { price: 71000, assembly: 16000 },
+                        "6x3": { price: 75000, assembly: 17000 }
+                    };
+                    let hzPrice = 0;
+                    let hzAsm = 0;
+                    if (standardPrices[key]) {
+                        hzPrice = standardPrices[key].price;
+                        hzAsm = standardPrices[key].assembly;
+                    } else {
+                        const area = l * w;
+                        hzPrice = area * 5500;
+                        hzAsm = area * 1000;
+                    }
+                    
+                    verandaCost = hzPrice;
+                    floorSum += verandaCost;
+                    if (state.chkCustomAssembly) {
+                        assemblyPrice += hzAsm;
+                    }
+                }
             }
 
             // Exterior Finish Upgrade
@@ -823,24 +873,19 @@
             // Interior Finish Upgrade
             let intCost = 0;
             if (state.selCustomInterior !== 'none') {
+                const intArea = (state.customLength * 2 * 2.5) + (state.customWidth * 2 * 2.5) + area;
+                let rate = 0;
                 if (state.customType === 'house_high') {
-                    if (state.selCustomInterior === 'imitation') {
-                        const intArea = (perimeter * 2.5) + area;
-                        intCost = intArea * 250;
-                    }
+                    if (state.selCustomInterior === 'imitation') rate = 250;
                 } else if (state.customType === 'house_low_osb') {
-                    const intArea = (perimeter * state.customHeight) + area;
                     const rates = { lining: 500, imitation: 750 };
-                    intCost = intArea * (rates[state.selCustomInterior] || 0);
+                    rate = rates[state.selCustomInterior] || 0;
                 } else if (state.customType === 'house_low_lining') {
-                    const intArea = (perimeter * state.customHeight) + area;
-                    if (state.selCustomInterior === 'imitation') {
-                        intCost = intArea * 250;
-                    }
+                    if (state.selCustomInterior === 'imitation') rate = 250;
                 } else {
-                    const rate = customRates[`rate_int_${state.selCustomInterior}`] || 0;
-                    intCost = wallArea * rate;
+                    rate = customRates[`rate_int_${state.selCustomInterior}`] || 0;
                 }
+                intCost = intArea * rate;
             }
             floorSum += (extCost + intCost); // Group as finish upgrades
 
@@ -853,17 +898,15 @@
             }
 
             // Insulation Upgrade
-            if (state.customType === 'house_high') {
-                const insRates = { 100: 0, izobel_100: 300, izobel_150: 3500, izobel_200: 4500, cold: 0 };
-                const rate = insRates[state.selCustomInsulation] || 0;
-                insulationSum = area * rate;
+            if (state.selCustomInsulation === '100') {
+                const insArea = (state.customWidth * 2 * 2.5) + (state.customLength * 2 * 2.5) + area + area;
+                insulationSum = insArea * (customRates.rate_ins_100 || 300);
+            } else if (state.selCustomInsulation === '200_ceiling') {
+                insulationSum = area * (customRates.rate_ins_200_ceiling || 1000);
+            } else if (state.selCustomInsulation === '200_floor') {
+                insulationSum = area * (customRates.rate_ins_200_floor || 1000);
             } else {
-                if (state.selCustomInsulation !== '50') {
-                    if (state.selCustomInsulation !== '0') {
-                        const rate = customRates[`rate_ins_${state.selCustomInsulation}`] || 0;
-                        insulationSum = area * rate;
-                    }
-                }
+                insulationSum = 0;
             }
 
             // Assembly Cost
@@ -929,7 +972,10 @@
         model.additions.forEach(add => {
             const qty = state.additionQuantities[add.id] || 0;
             if (qty > 0) {
-                const total = qty * add.price;
+                let total = qty * add.price;
+                if (add.id === 'pile_delivery') {
+                    total = Math.max(5000, qty * add.price);
+                }
                 additionsSum += total;
                 selectedAdditionsText.push({
                     name: add.name,
@@ -943,21 +989,33 @@
         const rawTotal = subtotal + additionsSum;
 
         // Taxes & discounts
-        let discountVal = state.isDiscountChecked ? Math.round(rawTotal * 0.1) : 0;
+        let discountVal = state.isDiscountChecked ? Math.round(rawTotal * 0.03) : 0;
         let vatVal = state.isVatChecked ? Math.round((rawTotal - discountVal) * 0.2) : 0;
 
         // Delivery
         let deliveryPrice = 0;
         if (state.deliveryDistance > 0) {
-            const baseDist = state.calculatorMode === 'custom' ? customRates.delivery_base_dist : model.delivery.baseDistance;
-            const baseCost = state.calculatorMode === 'custom' ? customRates.delivery_base_price : model.delivery.basePrice;
-            const kmRate = state.calculatorMode === 'custom' ? customRates.delivery_price_km : model.delivery.pricePerKm;
+            let length = 6;
+            let width = 3;
+            let isHozblok = false;
             
-            if (state.deliveryDistance <= baseDist) {
-                deliveryPrice = baseCost;
+            if (state.calculatorMode === 'custom') {
+                length = state.customLength;
+                width = state.customWidth;
+                isHozblok = (state.customType === 'hozblok');
             } else {
-                deliveryPrice = baseCost + (state.deliveryDistance - baseDist) * kmRate;
+                const size = model.sizes.find(s => s.id === state.selectedSizeId);
+                if (size) {
+                    length = size.length;
+                    width = size.width;
+                }
+                isHozblok = model.name.toLowerCase().includes('хозблок');
             }
+            
+            const minPrice = isHozblok ? 5000 : 7000;
+            const kmRate = (length > 6 || width > 3) ? 200 : 100;
+            
+            deliveryPrice = Math.max(minPrice, state.deliveryDistance * kmRate);
         }
 
         const finalTotal = rawTotal - discountVal + vatVal + deliveryPrice;
@@ -1032,7 +1090,7 @@
             <div class="summary-item" style="margin-top: 5px; padding-top: 5px; border-top: 1px dashed var(--border-color);">
                 <div style="display:flex; align-items:center; gap:5px;">
                     <input type="checkbox" id="chkDiscount" ${state.isDiscountChecked ? 'checked' : ''}>
-                    <label for="chkDiscount" style="cursor:pointer;">Скидка 10%:</label>
+                    <label for="chkDiscount" style="cursor:pointer;">Скидка 3%:</label>
                 </div>
                 <div class="discount" style="font-weight:600;">${state.isDiscountChecked ? '-' + discountVal.toLocaleString('ru-RU') + ' р.' : '0 р.'}</div>
             </div>
@@ -1106,11 +1164,7 @@
             text += `  - Пол: ${floorNames[state.selCustomFloor] || 'Базовая'}\n`;
             
             if (state.chkCustomVeranda) {
-                const verandaTypeNames = {
-                    freestanding: 'Отдельностоящая / крыльцо',
-                    high_roof: 'С высокой крышей'
-                };
-                text += `  - Веранда: ${verandaTypeNames[state.customVerandaType]} (${state.customVerandaWidth.toFixed(1)} м)\n`;
+                text += `  - Веранда (${state.customVerandaWidth.toFixed(1)} м)\n`;
             }
         }
 
@@ -1147,7 +1201,7 @@
         }
 
         if (state.isDiscountChecked) {
-            text += `🏷️ Скидка 10%: -${discountVal.toLocaleString('ru-RU')} руб.\n`;
+            text += `🏷️ Скидка 3%: -${discountVal.toLocaleString('ru-RU')} руб.\n`;
         }
         if (state.isVatChecked) {
             text += `🏦 НДС 20%: +${vatVal.toLocaleString('ru-RU')} руб.\n`;
@@ -1184,16 +1238,16 @@
                 { label: 'Внутрянка: Вагонка В (м² стен)', key: 'rate_int_lining', val: customRates.rate_int_lining },
                 { label: 'Внутрянка: МДФ панели (м² стен)', key: 'rate_int_mdf', val: customRates.rate_int_mdf },
                 { label: 'Внутрянка: ПВХ панели (м² стен)', key: 'rate_int_pvc', val: customRates.rate_int_pvc },
-                { label: 'Утепление 100 мм (м² пола)', key: 'rate_ins_100', val: customRates.rate_ins_100 },
-                { label: 'Утепление 150 мм (м² пола)', key: 'rate_ins_150', val: customRates.rate_ins_150 },
-                { label: 'Утепление 200 мм (м² пола)', key: 'rate_ins_200', val: customRates.rate_ins_200 },
+                { label: 'Утепление 100 мм мин. вата (м² по формуле)', key: 'rate_ins_100', val: customRates.rate_ins_100 },
+                { label: 'Утепление 200 мм потолок (м²)', key: 'rate_ins_200_ceiling', val: customRates.rate_ins_200_ceiling || 1000 },
+                { label: 'Утепление 200 мм пол (м²)', key: 'rate_ins_200_floor', val: customRates.rate_ins_200_floor || 1000 },
                 { label: 'Пол: ОСБ 12 мм (м² пола)', key: 'rate_floor_osb12', val: customRates.rate_floor_osb12 },
                 { label: 'Пол: ОСБ 18 мм (м² пола)', key: 'rate_floor_osb18', val: customRates.rate_floor_osb18 },
                 { label: 'Пол: Шпунт 28 мм (м² пола)', key: 'rate_floor_tongue28', val: customRates.rate_floor_tongue28 },
                 { label: 'Пол: Шпунт 36 мм (м² пола)', key: 'rate_floor_tongue36', val: customRates.rate_floor_tongue36 },
                 { label: 'Стоимость сборки (м² пола)', key: 'rate_assembly', val: customRates.rate_assembly },
-                { label: 'Доставка: Лимит бесплатных км', key: 'delivery_base_dist', val: customRates.delivery_base_dist },
-                { label: 'Доставка: Базовая цена (руб)', key: 'delivery_base_price', val: customRates.delivery_base_price },
+                { label: 'Доставка: Базовая дистанция (км)', key: 'delivery_base_dist', val: customRates.delivery_base_dist },
+                { label: 'Доставка: Минимальная цена (руб)', key: 'delivery_base_price', val: customRates.delivery_base_price },
                 { label: 'Доставка: Цена за 1 км (руб)', key: 'delivery_price_km', val: customRates.delivery_price_km }
             ];
 
@@ -1421,7 +1475,7 @@
                     rate_cabin: 8000,
                     rate_hozblok: 5500,
                     rate_container: 9000,
-                    rate_veranda: 7500,
+                    rate_veranda: 9000,
                     rate_ext_imitation: 250,
                     rate_ext_blockhouse: 1000,
                     rate_ext_proflist: 300,
@@ -1430,17 +1484,17 @@
                     rate_int_lining: 400,
                     rate_int_mdf: 500,
                     rate_int_pvc: 500,
-                    rate_ins_100: 550,
-                    rate_ins_150: 1000,
-                    rate_ins_200: 1500,
+                    rate_ins_100: 300,
+                    rate_ins_200_ceiling: 1000,
+                    rate_ins_200_floor: 1000,
                     rate_floor_osb12: 500,
                     rate_floor_osb18: 700,
                     rate_floor_tongue28: 1000,
                     rate_floor_tongue36: 1250,
                     rate_assembly: 1000,
-                    delivery_base_dist: 50,
-                    delivery_base_price: 12000,
-                    delivery_price_km: 100
+                    delivery_base_dist: 0,
+                    delivery_base_price: 7000,
+                    delivery_price_km: 200
                 };
             } else {
                 localStorage.removeItem('mobistroy_config');
