@@ -126,7 +126,7 @@
         
         activeConfig.forEach(model => {
             // Remove old additions that we are replacing/standardizing
-            model.additions = model.additions.filter(add => {
+            let cleanedAdditions = model.additions.filter(add => {
                 const nameLower = add.name.toLowerCase();
                 if (nameLower.includes('окно') || nameLower.includes('пвх')) return false;
                 if (nameLower.includes('сва') || nameLower.includes('сваи')) return false;
@@ -140,10 +140,14 @@
                 if (nameLower.includes('имитация бс') && nameLower.includes('+400')) return false;
                 if (nameLower.includes('имитация аб') && nameLower.includes('+650')) return false;
                 if (nameLower.includes('перегород') && (nameLower.includes('р/мп') || nameLower.includes('р/мп.') || nameLower.includes('р/м.п.'))) return false;
+                
+                // Deduplicate by shared additions ID
+                if (SHARED_ADDITIONS.some(shared => shared.id === add.id)) return false;
+                
                 return true;
             });
             // Prepend new shared additions
-            model.additions = [...SHARED_ADDITIONS, ...model.additions];
+            model.additions = [...SHARED_ADDITIONS, ...cleanedAdditions];
             
             // Update PVC doors price
             model.additions.forEach(add => {
@@ -154,13 +158,19 @@
                 }
             });
 
-            // Update delivery rate
+            // Update delivery rate dynamically
             if (model.delivery) {
                 model.delivery.baseDistance = 0;
-                model.delivery.basePrice = 7000;
+                if (model.name.toLowerCase().includes('хозблок')) {
+                    model.delivery.basePrice = 5000;
+                    model.delivery.minPrice = 5000;
+                    model.delivery.notes = `Доставка: до 6х3 по 100 р/км, свыше по 200 р/км, мин. 5000 р.`;
+                } else {
+                    model.delivery.basePrice = 7000;
+                    model.delivery.minPrice = 7000;
+                    model.delivery.notes = `Доставка: до 6х3 по 100 р/км, свыше по 200 р/км, мин. 7000 р.`;
+                }
                 model.delivery.pricePerKm = 200;
-                model.delivery.minPrice = 7000;
-                model.delivery.notes = `Доставка: 200 р/км, мин. 7000 р.`;
             }
         });
     }
@@ -173,8 +183,8 @@
         
         // Custom Mode params
         customType: 'house_high',
-        customLength: 6.0,
-        customWidth: 3.0,
+        customLength: 6,
+        customWidth: 3,
         customHeight: 2.4,
         chkCustomVeranda: false,
         customVerandaWidth: 2.0,
@@ -435,6 +445,7 @@
             insHTML = `
                 <option value="50">50 мм мин. вата (включено)</option>
                 <option value="100">100 мм базальтовая плита (по формуле)</option>
+                <option value="150">150 мм базальтовая плита (+3 500 р/м²)</option>
                 <option value="0">Без утепления</option>
             `;
         }
@@ -674,6 +685,15 @@
         calculateBill();
     }
 
+    function isHighRoof() {
+        if (state.calculatorMode === 'custom') {
+            return state.customType === 'house_high';
+        } else {
+            const model = getActiveModel();
+            return model && model.name.includes("Дачный дом") && state.houseTypeHeight === 3.5;
+        }
+    }
+
     function renderAdditions() {
         const model = getActiveModel();
         if (!model) return;
@@ -693,8 +713,8 @@
         }
 
         model.additions.forEach(add => {
-            // Filter out double-pitch additions for high roof custom structures
-            if (state.calculatorMode === 'custom' && state.customType === 'house_high') {
+            // Filter out double-pitch additions for high roof structures
+            if (isHighRoof()) {
                 if (add.id === 'roof_double_pitch_1800' || add.id === 'roof_double_pitch_flat') {
                     return;
                 }
@@ -799,6 +819,7 @@
         let assemblyPrice = 0;
         let floorSum = 0;
         let insulationSum = 0;
+        let verandaCost = 0;
         let selectedFinishName = '';
         let sizeName = '';
         let area = 0;
@@ -816,7 +837,7 @@
                 extWallArea = perimeter * 3.5;
             }
             
-            sizeName = `${state.customLength}х${state.customWidth}м`;
+            sizeName = `${Math.round(state.customLength)}х${Math.round(state.customWidth)}м`;
 
             // Base rate lookup based on category type selection
             let baseRate = customRates[`rate_${state.customType}`] || 8000;
@@ -836,15 +857,12 @@
             selectedFinishName = structNames[state.customType] || 'Бытовка';
 
             // Veranda Cost
-            let verandaCost = 0;
             if (state.chkCustomVeranda) {
                 const verandaArea = state.customLength * state.customVerandaWidth;
                 if (state.customType === 'house_high') {
                     verandaCost = verandaArea * 9000;
-                    floorSum += verandaCost;
                 } else if (state.customType === 'house_low_osb' || state.customType === 'house_low_lining') {
                     verandaCost = verandaArea * 7500;
-                    floorSum += verandaCost;
                 } else {
                     const l = state.customLength;
                     const w = state.customVerandaWidth;
@@ -871,7 +889,6 @@
                     }
                     
                     verandaCost = hzPrice;
-                    floorSum += verandaCost;
                     if (state.chkCustomAssembly) {
                         assemblyPrice += hzAsm;
                     }
@@ -987,7 +1004,7 @@
         }
 
         // Subtotal (ИТОГО)
-        const subtotal = basePrice + assemblyPrice + floorSum + insulationSum;
+        const subtotal = basePrice + assemblyPrice + floorSum + insulationSum + verandaCost;
 
         // Additions sum
         let additionsSum = 0;
@@ -1048,6 +1065,7 @@
         state.assemblyPrice = assemblyPrice;
         state.floorSum = floorSum;
         state.insulationSum = insulationSum;
+        state.verandaCost = verandaCost;
         state.additionsSum = additionsSum;
         state.deliveryPrice = deliveryPrice;
         state.discountVal = discountVal;
@@ -1086,6 +1104,11 @@
             <div class="summary-item">
                 <div>Сборка на участке:</div>
                 <div>${assemblyPrice.toLocaleString('ru-RU')} р.</div>
+            </div>` : ''}
+            ${verandaCost > 0 ? `
+            <div class="summary-item">
+                <div>Веранда:</div>
+                <div>${verandaCost.toLocaleString('ru-RU')} р.</div>
             </div>` : ''}
             ${floorSum > 0 ? `
             <div class="summary-item">
@@ -1205,6 +1228,7 @@
 
         const basePrice = state.basePrice || 0;
         const assemblyPrice = state.assemblyPrice || 0;
+        const verandaCost = state.verandaCost || 0;
         const floorSum = state.floorSum || 0;
         const insulationSum = state.insulationSum || 0;
         const additionsSum = state.additionsSum || 0;
@@ -1215,6 +1239,7 @@
 
         text += `• База: ${basePrice.toLocaleString('ru-RU')} руб.\n`;
         if (assemblyPrice > 0) text += `• Сборка: ${assemblyPrice.toLocaleString('ru-RU')} руб.\n`;
+        if (verandaCost > 0) text += `• Веранда (${Math.round(state.customVerandaWidth)} м): ${verandaCost.toLocaleString('ru-RU')} руб.\n`;
         if (floorSum > 0) text += `• Отделка и полы: ${floorSum.toLocaleString('ru-RU')} руб.\n`;
         if (insulationSum > 0) text += `• Утепление: ${insulationSum.toLocaleString('ru-RU')} руб.\n`;
 
@@ -1271,7 +1296,7 @@
                 { label: 'Внутрянка: Вагонка В (м² стен)', key: 'rate_int_lining', val: customRates.rate_int_lining },
                 { label: 'Внутрянка: МДФ панели (м² стен)', key: 'rate_int_mdf', val: customRates.rate_int_mdf },
                 { label: 'Внутрянка: ПВХ панели (м² стен)', key: 'rate_int_pvc', val: customRates.rate_int_pvc },
-                { label: 'Утепление 100 мм мин. вата (м² по формуле)', key: 'rate_ins_100', val: customRates.rate_ins_100 },
+                { label: 'Утепление 100 мм базальтовая плита (м² по формуле)', key: 'rate_ins_100', val: customRates.rate_ins_100 },
                 { label: 'Утепление 200 мм потолок (м²)', key: 'rate_ins_200_ceiling', val: customRates.rate_ins_200_ceiling || 1000 },
                 { label: 'Утепление 200 мм пол (м²)', key: 'rate_ins_200_floor', val: customRates.rate_ins_200_floor || 1000 },
                 { label: 'Пол: ОСБ 12 мм (м² пола)', key: 'rate_floor_osb12', val: customRates.rate_floor_osb12 },
@@ -1293,6 +1318,25 @@
                 `;
                 adminFormFields.appendChild(row);
             });
+
+            // Edit additions prices in Custom Mode
+            const model = getActiveModel();
+            if (model && model.additions && model.additions.length > 0) {
+                const titleAdds = document.createElement('h4');
+                titleAdds.textContent = `Стоимость дополнительных опций (руб/ед.):`;
+                titleAdds.style.margin = '15px 0 5px';
+                adminFormFields.appendChild(titleAdds);
+
+                model.additions.forEach(add => {
+                    const row = document.createElement('div');
+                    row.className = 'edit-row';
+                    row.innerHTML = `
+                        <label>${add.name}</label>
+                        <input type="number" class="admin-input-add" data-add-id="${add.id}" value="${add.price}">
+                    `;
+                    adminFormFields.appendChild(row);
+                });
+            }
         } else {
             // Render rates editor for Standard Sheets Mode
             const model = getActiveModel();
@@ -1364,6 +1408,19 @@
                 customRates[key] = val;
             });
             localStorage.setItem('mobistroy_custom_rates', JSON.stringify(customRates));
+
+            // Save additions in Custom Mode as well
+            const model = getActiveModel();
+            if (model) {
+                const addInputs = adminFormFields.querySelectorAll('.admin-input-add');
+                addInputs.forEach(input => {
+                    const id = input.getAttribute('data-add-id');
+                    const val = parseInt(input.value) || 0;
+                    const add = model.additions.find(a => a.id === id);
+                    if (add) add.price = val;
+                });
+                localStorage.setItem('mobistroy_config', JSON.stringify(activeConfig));
+            }
         } else {
             const model = getActiveModel();
             if (!model) return;
@@ -1410,12 +1467,12 @@
     
     // Sliders hooks in Custom Constructor Mode
     customLengthSlider.addEventListener('input', (e) => {
-        state.customLength = parseFloat(e.target.value) || 2;
+        state.customLength = parseInt(e.target.value, 10) || 2;
         renderModelUI();
     });
 
     customWidthSlider.addEventListener('input', (e) => {
-        state.customWidth = parseFloat(e.target.value) || 2;
+        state.customWidth = parseInt(e.target.value, 10) || 2;
         renderModelUI();
     });
 
