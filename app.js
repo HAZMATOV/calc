@@ -684,7 +684,24 @@
             const finish = model.finishes[state.selectedFinishIdx];
             let assemblyPrice = 0;
             if (finish && size) {
-                assemblyPrice = finish.assembly[size.id] || model.assembly?.[size.id] || 0;
+                const isCabin = model.name.includes("Бытовка базовая");
+                const isCombined = isCabin && size.cabinWidth !== undefined;
+                if (isCombined) {
+                    const cabinModel = activeConfig.find(m => m.name.includes("Бытовка"));
+                    const hozblokModel = activeConfig.find(m => m.name.includes("Хозблок"));
+                    if (cabinModel && hozblokModel) {
+                        const cabinSizeId = `${size.length}x${size.cabinWidth}`;
+                        const hozWidth = size.verandaWidth === 1 ? 2 : size.verandaWidth;
+                        const hozSizeId = `${size.length}x${hozWidth}`;
+                        
+                        const cabAsm = cabinModel.finishes[0].assembly[cabinSizeId] || 0;
+                        const hozAsm = hozblokModel.finishes[0].assembly[hozSizeId] || 0;
+                        
+                        assemblyPrice = cabAsm + hozAsm;
+                    }
+                } else {
+                    assemblyPrice = finish.assembly[size.id] || model.assembly?.[size.id] || 0;
+                }
             }
             
             if (assemblyPrice > 0) {
@@ -883,19 +900,31 @@
             let recQty = 0;
             let recText = '';
 
-            // Special veranda handling: user inputs depth (м), area = depth × house_length
+            // Special veranda handling: user inputs depth (м)
+            // In houses (veranda_high, veranda_low) veranda is along the width.
+            // In cabins/hozbloks (veranda_cabin) veranda is along the length.
             const isVeranda = (add.id === 'veranda_high' || add.id === 'veranda_low' || add.id === 'veranda_cabin');
             if (isVeranda) {
-                const houseLen = state.calculatorMode === 'custom'
-                    ? Math.round(state.customLength)
-                    : (model.sizes ? (model.sizes.find(s => s.id === state.selectedSizeId) || {}).length || 0 : 0);
+                const isHouseVeranda = (add.id === 'veranda_high' || add.id === 'veranda_low');
+                let dimensionVal = 0;
+                let dimensionLabel = '';
+                if (state.calculatorMode === 'custom') {
+                    dimensionVal = isHouseVeranda ? Math.round(state.customWidth) : Math.round(state.customLength);
+                    dimensionLabel = isHouseVeranda ? 'ширины' : 'длины';
+                } else {
+                    const sz = model.sizes ? model.sizes.find(s => s.id === state.selectedSizeId) : null;
+                    if (sz) {
+                        dimensionVal = isHouseVeranda ? sz.width : sz.length;
+                    }
+                    dimensionLabel = isHouseVeranda ? 'ширины' : 'длины';
+                }
                 const depth = qty || 0;
-                const verandaArea = depth * houseLen;
+                const verandaArea = depth * dimensionVal;
                 recText = `2 м`;
                 recQty = 2;
                 const applyLink2 = ` <a href="#" class="apply-rec-btn" data-val="2" style="font-size:11px; color:var(--primary); text-decoration:underline; margin-left:4px; cursor:pointer;">2м</a>`;
                 const applyLink3 = ` <a href="#" class="apply-rec-btn" data-val="3" style="font-size:11px; color:var(--primary); text-decoration:underline; margin-left:4px; cursor:pointer;">3м</a>`;
-                const areaHint = depth > 0 ? `<span style="font-size:11px;color:var(--text-muted);margin-left:8px;">${depth}м × ${houseLen}м = ${verandaArea} м²</span>` : `<span style="font-size:11px;color:var(--text-muted);margin-left:8px;">глубина × ${houseLen}м длины</span>`;
+                const areaHint = depth > 0 ? `<span style="font-size:11px;color:var(--text-muted);margin-left:8px;">${depth}м × ${dimensionVal}м = ${verandaArea} м²</span>` : `<span style="font-size:11px;color:var(--text-muted);margin-left:8px;">глубина × ${dimensionVal}м ${dimensionLabel}</span>`;
 
                 const row = document.createElement('div');
                 row.className = 'option-row';
@@ -1275,17 +1304,22 @@
             const qty = state.additionQuantities[add.id] || 0;
             if (qty > 0) {
                 let total = qty * add.price;
-                // Veranda: qty = depth (м), area = depth × house_length
+                // Veranda: qty = depth (м)
+                // In houses (veranda_high, veranda_low) veranda is along the width.
+                // In cabins/hozbloks (veranda_cabin) veranda is along the length.
                 const isVeranda = (add.id === 'veranda_high' || add.id === 'veranda_low' || add.id === 'veranda_cabin');
                 if (isVeranda) {
-                    let houseLen = 0;
+                    let dimensionVal = 0;
+                    const isHouseVeranda = (add.id === 'veranda_high' || add.id === 'veranda_low');
                     if (state.calculatorMode === 'custom') {
-                        houseLen = state.customLength;
+                        dimensionVal = isHouseVeranda ? state.customWidth : state.customLength;
                     } else {
                         const sz = model.sizes ? model.sizes.find(s => s.id === state.selectedSizeId) : null;
-                        houseLen = sz ? sz.length : 0;
+                        if (sz) {
+                            dimensionVal = isHouseVeranda ? sz.width : sz.length;
+                        }
                     }
-                    total = qty * houseLen * add.price;
+                    total = qty * dimensionVal * add.price;
                 } else if (add.id === 'pile_delivery') {
                     total = Math.max(5000, qty * add.price);
                 }
