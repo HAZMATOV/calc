@@ -268,6 +268,7 @@
     const adminFormFields = document.getElementById('adminFormFields');
     const btnSaveConfig = document.getElementById('btnSaveConfig');
     const btnResetConfig = document.getElementById('btnResetConfig');
+    const btnResetCache = document.getElementById('btnResetCache');
     const btnExportConfig = document.getElementById('btnExportConfig');
     const themeToggleBtn = document.getElementById('themeToggleBtn');
 
@@ -1071,7 +1072,7 @@
             if (state.customType === 'house_low') {
                 if (state.selCustomInsulation === '0') {
                     baseRate = 8000;
-                } else if (state.selCustomInterior === 'lining') {
+                } else if (state.selCustomInterior === 'lining' || state.selCustomInterior === 'imitation') {
                     baseRate = customRates.rate_house_low_lining || 10000;
                 } else {
                     baseRate = customRates.rate_house_low_osb || 9500;
@@ -1898,6 +1899,14 @@
             alert("Цены успешно сброшены.");
             renderTabs();
             renderModelUI();
+        }
+    });
+
+    btnResetCache.addEventListener('click', () => {
+        if (confirm("Вы хотите сбросить локальный кэш калькулятора и перезагрузить страницу? Это загрузит новые цены с сервера.")) {
+            localStorage.clear();
+            sessionStorage.clear();
+            window.location.reload();
         }
     });
 
