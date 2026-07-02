@@ -407,6 +407,7 @@
             intHTML = `
                 <option value="osb">ОСБ 9 мм (базовая, включена)</option>
                 <option value="lining">Вагонка 'ВС' (базовая, включена)</option>
+                <option value="imitation">Имитация бруса 'В' (+250 р/м²)</option>
             `;
         } else if (type === 'cabin') {
             intHTML = `
@@ -1124,7 +1125,8 @@
                 if (state.customType === 'house_high') {
                     if (state.selCustomInterior === 'imitation') rate = 250;
                 } else if (state.customType === 'house_low') {
-                    rate = 0;
+                    if (state.selCustomInterior === 'imitation') rate = 250;
+                    else rate = 0;
                 } else if (state.customType === 'cabin') {
                     if (state.selCustomInterior === 'lining') {
                         rate = customRates.rate_int_cabin_lining || 120;
