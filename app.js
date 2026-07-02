@@ -901,9 +901,9 @@
             let recText = '';
 
             // Special veranda handling: user inputs depth (м)
-            // In houses (veranda_high, veranda_low) veranda is along the width.
-            // In cabins/hozbloks (veranda_cabin) veranda is along the length.
-            const isVeranda = (add.id === 'veranda_high' || add.id === 'veranda_low' || add.id === 'veranda_cabin');
+            // For cabin/hozblok (veranda_cabin), veranda is along the length.
+            // (For houses, the veranda is calculated directly in square meters without multipliers).
+            const isVeranda = (add.id === 'veranda_cabin');
             if (isVeranda) {
                 const isHouseVeranda = (add.id === 'veranda_high' || add.id === 'veranda_low');
                 let dimensionVal = 0;
@@ -1305,9 +1305,9 @@
             if (qty > 0) {
                 let total = qty * add.price;
                 // Veranda: qty = depth (м)
-                // In houses (veranda_high, veranda_low) veranda is along the width.
-                // In cabins/hozbloks (veranda_cabin) veranda is along the length.
-                const isVeranda = (add.id === 'veranda_high' || add.id === 'veranda_low' || add.id === 'veranda_cabin');
+                // For cabin/hozblok (veranda_cabin), veranda is along the length.
+                // (For houses, the veranda is calculated directly in square meters without multipliers).
+                const isVeranda = (add.id === 'veranda_cabin');
                 if (isVeranda) {
                     let dimensionVal = 0;
                     const isHouseVeranda = (add.id === 'veranda_high' || add.id === 'veranda_low');
