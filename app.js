@@ -882,6 +882,60 @@
             
             let recQty = 0;
             let recText = '';
+
+            // Special veranda handling: user inputs depth (м), area = depth × house_length
+            const isVeranda = (add.id === 'veranda_high' || add.id === 'veranda_low' || add.id === 'veranda_cabin');
+            if (isVeranda) {
+                const houseLen = state.calculatorMode === 'custom'
+                    ? Math.round(state.customLength)
+                    : (model.sizes ? (model.sizes.find(s => s.id === state.selectedSizeId) || {}).length || 0 : 0);
+                const depth = qty || 0;
+                const verandaArea = depth * houseLen;
+                recText = `2 м`;
+                recQty = 2;
+                const applyLink2 = ` <a href="#" class="apply-rec-btn" data-val="2" style="font-size:11px; color:var(--primary); text-decoration:underline; margin-left:4px; cursor:pointer;">2м</a>`;
+                const applyLink3 = ` <a href="#" class="apply-rec-btn" data-val="3" style="font-size:11px; color:var(--primary); text-decoration:underline; margin-left:4px; cursor:pointer;">3м</a>`;
+                const areaHint = depth > 0 ? `<span style="font-size:11px;color:var(--text-muted);margin-left:8px;">${depth}м × ${houseLen}м = ${verandaArea} м²</span>` : `<span style="font-size:11px;color:var(--text-muted);margin-left:8px;">глубина × ${houseLen}м длины</span>`;
+
+                const row = document.createElement('div');
+                row.className = 'option-row';
+                row.innerHTML = `
+                    <div class="option-info" style="max-width: 65%;">
+                        <span class="option-label">${add.name} ${applyLink2}${applyLink3}${areaHint}</span>
+                    </div>
+                    <div style="display:flex; align-items:center; gap: 15px;">
+                        <div class="option-price">${(add.price).toLocaleString('ru-RU')} р/м²</div>
+                        <div class="quantity-control">
+                            <button class="qty-btn dec-btn">-</button>
+                            <input type="number" class="qty-input" value="${qty}" min="0" style="width:45px;" placeholder="м">
+                            <button class="qty-btn inc-btn">+</button>
+                        </div>
+                    </div>
+                `;
+
+                const input = row.querySelector('.qty-input');
+                const decBtn = row.querySelector('.dec-btn');
+                const incBtn = row.querySelector('.inc-btn');
+
+                const updateQty = (newVal) => {
+                    newVal = Math.max(0, newVal);
+                    state.additionQuantities[add.id] = newVal;
+                    input.value = newVal;
+                    calculateBill();
+                    renderAdditions(); // re-render to update area hint
+                };
+
+                input.addEventListener('change', (e) => { updateQty(parseInt(e.target.value) || 0); });
+                decBtn.addEventListener('click', () => { updateQty((state.additionQuantities[add.id] || 0) - 1); });
+                incBtn.addEventListener('click', () => { updateQty((state.additionQuantities[add.id] || 0) + 1); });
+                row.querySelectorAll('.apply-rec-btn').forEach(btn => {
+                    btn.addEventListener('click', (e) => { e.preventDefault(); updateQty(parseInt(btn.getAttribute('data-val'))); });
+                });
+
+                additionsList.appendChild(row);
+                return; // skip normal rendering below
+            }
+
             if (add.type === 'area') {
                 const nameLower = add.name.toLowerCase();
                 if (nameLower.includes('стена') || nameLower.includes('стен')) {
@@ -1221,7 +1275,18 @@
             const qty = state.additionQuantities[add.id] || 0;
             if (qty > 0) {
                 let total = qty * add.price;
-                if (add.id === 'pile_delivery') {
+                // Veranda: qty = depth (м), area = depth × house_length
+                const isVeranda = (add.id === 'veranda_high' || add.id === 'veranda_low' || add.id === 'veranda_cabin');
+                if (isVeranda) {
+                    let houseLen = 0;
+                    if (state.calculatorMode === 'custom') {
+                        houseLen = state.customLength;
+                    } else {
+                        const sz = model.sizes ? model.sizes.find(s => s.id === state.selectedSizeId) : null;
+                        houseLen = sz ? sz.length : 0;
+                    }
+                    total = qty * houseLen * add.price;
+                } else if (add.id === 'pile_delivery') {
                     total = Math.max(5000, qty * add.price);
                 }
                 additionsSum += total;
