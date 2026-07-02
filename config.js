@@ -2,6 +2,14 @@ window.DEFAULT_CONFIG = [
   {
     "name": "Бытовка базовая",
     "sizes": [
+      { "id": "3x2", "name": "3х2", "length": 3, "width": 2 },
+      { "id": "4x2", "name": "4х2", "length": 4, "width": 2 },
+      { "id": "5x2", "name": "5х2", "length": 5, "width": 2 },
+      { "id": "6x2", "name": "6х2", "length": 6, "width": 2 },
+      { "id": "3x3", "name": "3х3", "length": 3, "width": 3 },
+      { "id": "4x3", "name": "4х3", "length": 4, "width": 3 },
+      { "id": "5x3", "name": "5х3", "length": 5, "width": 3 },
+      { "id": "6x3", "name": "6х3", "length": 6, "width": 3 },
       { "id": "6x4_v2", "name": "6х4 (бытовка 6х2 + хозблок 6х2)", "length": 6, "width": 4, "cabinWidth": 2, "verandaWidth": 2 },
       { "id": "6x5_v2", "name": "6х5 (бытовка 6х3 + хозблок 6х2)", "length": 6, "width": 5, "cabinWidth": 3, "verandaWidth": 2 },
       { "id": "6x6_v3", "name": "6х6 (бытовка 6х3 + хозблок 6х3)", "length": 6, "width": 6, "cabinWidth": 3, "verandaWidth": 3 },
