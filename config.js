@@ -2,142 +2,48 @@ window.DEFAULT_CONFIG = [
   {
     "name": "Бытовка базовая",
     "sizes": [
-      { "id": "2x2", "name": "2х2", "length": 2, "width": 2 },
-      { "id": "3x2", "name": "3х2", "length": 3, "width": 2 },
-      { "id": "4x2", "name": "4х2", "length": 4, "width": 2 },
-      { "id": "5x2", "name": "5х2", "length": 5, "width": 2 },
-      { "id": "6x2", "name": "6х2", "length": 6, "width": 2 },
-      { "id": "3x3", "name": "3х3", "length": 3, "width": 3 },
-      { "id": "4x3", "name": "4х3", "length": 4, "width": 3 },
-      { "id": "5x3", "name": "5х3", "length": 5, "width": 3 },
-      { "id": "6x3", "name": "6х3", "length": 6, "width": 3 },
-      { "id": "7x3", "name": "7х3", "length": 7, "width": 3 },
-      { "id": "4x3_v1", "name": "4х3 (бытовка 4х2 + вер. 1м)", "length": 4, "width": 3, "cabinWidth": 2, "verandaWidth": 1 },
-      { "id": "4x4_v1", "name": "4х4 (бытовка 4х3 + вер. 1м)", "length": 4, "width": 4, "cabinWidth": 3, "verandaWidth": 1 },
-      { "id": "4x4_v2", "name": "4х4 (бытовка 4х2 + вер. 2м)", "length": 4, "width": 4, "cabinWidth": 2, "verandaWidth": 2 },
-      { "id": "4x5_v2", "name": "4х5 (бытовка 4х3 + вер. 2м)", "length": 4, "width": 5, "cabinWidth": 3, "verandaWidth": 2 },
-      { "id": "4x6_v3", "name": "4х6 (бытовка 4х3 + вер. 3м)", "length": 4, "width": 6, "cabinWidth": 3, "verandaWidth": 3 },
-      { "id": "5x3_v1", "name": "5х3 (бытовка 5х2 + вер. 1м)", "length": 5, "width": 3, "cabinWidth": 2, "verandaWidth": 1 },
-      { "id": "5x4_v1", "name": "5х4 (бытовка 5х3 + вер. 1м)", "length": 5, "width": 4, "cabinWidth": 3, "verandaWidth": 1 },
-      { "id": "5x4_v2", "name": "5х4 (бытовка 5х2 + вер. 2м)", "length": 5, "width": 4, "cabinWidth": 2, "verandaWidth": 2 },
-      { "id": "5x5_v2", "name": "5х5 (бытовка 5х3 + вер. 2м)", "length": 5, "width": 5, "cabinWidth": 3, "verandaWidth": 2 },
-      { "id": "5x6_v3", "name": "5х6 (бытовка 5х3 + вер. 3м)", "length": 5, "width": 6, "cabinWidth": 3, "verandaWidth": 3 },
-      { "id": "6x3_v1", "name": "6х3 (бытовка 6х2 + вер. 1м)", "length": 6, "width": 3, "cabinWidth": 2, "verandaWidth": 1 },
-      { "id": "6x4_v1", "name": "6х4 (бытовка 6х3 + вер. 1м)", "length": 6, "width": 4, "cabinWidth": 3, "verandaWidth": 1 },
-      { "id": "6x4_v2", "name": "6х4 (бытовка 6х2 + вер. 2м)", "length": 6, "width": 4, "cabinWidth": 2, "verandaWidth": 2 },
-      { "id": "6x5_v2", "name": "6х5 (бытовка 6х3 + вер. 2м)", "length": 6, "width": 5, "cabinWidth": 3, "verandaWidth": 2 },
-      { "id": "6x6_v3", "name": "6х6 (бытовка 6х3 + вер. 3м)", "length": 6, "width": 6, "cabinWidth": 3, "verandaWidth": 3 }
+      { "id": "6x4_v2", "name": "6х4 (бытовка 6х2 + хозблок 6х2)", "length": 6, "width": 4, "cabinWidth": 2, "verandaWidth": 2 },
+      { "id": "6x5_v2", "name": "6х5 (бытовка 6х3 + хозблок 6х2)", "length": 6, "width": 5, "cabinWidth": 3, "verandaWidth": 2 },
+      { "id": "6x6_v3", "name": "6х6 (бытовка 6х3 + хозблок 6х3)", "length": 6, "width": 6, "cabinWidth": 3, "verandaWidth": 3 },
+      { "id": "5x4_v2", "name": "5х4 (бытовка 5х2 + хозблок 5х2)", "length": 5, "width": 4, "cabinWidth": 2, "verandaWidth": 2 },
+      { "id": "5x5_v2", "name": "5х5 (бытовка 5х3 + хозблок 5х2)", "length": 5, "width": 5, "cabinWidth": 3, "verandaWidth": 2 },
+      { "id": "5x6_v3", "name": "5х6 (бытовка 5х3 + хозблок 5х3)", "length": 5, "width": 6, "cabinWidth": 3, "verandaWidth": 3 }
     ],
+
     "finishes": [
       {
         "name": "Вагонка 'ВС' / ОСБ",
-        "prices": {
-          "2x2": 52000,
-          "3x2": 60000,
-          "4x2": 67000,
-          "5x2": 75000,
-          "6x2": 79000,
-          "3x3": 74000,
-          "4x3": 84000,
-          "5x3": 106000,
-          "6x3": 109000,
-          "7x3": 132000
-        },
-        "assembly": {
-          "2x2": 12000,
-          "3x2": 16000,
-          "4x2": 17000,
-          "5x2": 19000,
-          "6x2": 19000,
-          "3x3": 17000,
-          "4x3": 17000,
-          "5x3": 22000,
-          "6x3": 22000,
-          "7x3": 25000
-        }
+        "prices": {},
+        "assembly": {}
       },
       {
         "name": "Вагонка 'ВС' / Вагонка 'ВС'",
         "prices": {},
-        "assembly": {
-          "2x2": 12000,
-          "3x2": 16000,
-          "4x2": 17000,
-          "5x2": 19000,
-          "6x2": 19000,
-          "3x3": 17000,
-          "4x3": 17000,
-          "5x3": 22000,
-          "6x3": 22000,
-          "7x3": 25000
-        }
+        "assembly": {}
       },
       {
         "name": "Имитация бруса 'В' / ОСБ",
         "prices": {},
-        "assembly": {
-          "2x2": 12000,
-          "3x2": 16000,
-          "4x2": 17000,
-          "5x2": 19000,
-          "6x2": 19000,
-          "3x3": 17000,
-          "4x3": 17000,
-          "5x3": 22000,
-          "6x3": 22000,
-          "7x3": 25000
-        }
+        "assembly": {}
       },
       {
         "name": "Имитация бруса 'В' / Вагонка 'ВС'",
         "prices": {},
-        "assembly": {
-          "2x2": 12000,
-          "3x2": 16000,
-          "4x2": 17000,
-          "5x2": 19000,
-          "6x2": 19000,
-          "3x3": 17000,
-          "4x3": 17000,
-          "5x3": 22000,
-          "6x3": 22000,
-          "7x3": 25000
-        }
+        "assembly": {}
       },
       {
         "name": "Профлист С8 цветной / Вагонка 'ВС'",
         "prices": {},
-        "assembly": {
-          "2x2": 12000,
-          "3x2": 16000,
-          "4x2": 17000,
-          "5x2": 19000,
-          "6x2": 19000,
-          "3x3": 17000,
-          "4x3": 17000,
-          "5x3": 22000,
-          "6x3": 22000,
-          "7x3": 25000
-        }
+        "assembly": {}
       }
+
     ],
     "floorOptions": [],
     "insulation": [
       {
         "id": "ins_100_standard",
         "name": "Утеплитель 100 мм мин. вата (+550 р/м²)",
-        "prices": {
-          "2x2": 2200,
-          "3x2": 3300,
-          "4x2": 4400,
-          "5x2": 5500,
-          "6x2": 6600,
-          "3x3": 4950,
-          "4x3": 6600,
-          "5x3": 8250,
-          "6x3": 9900,
-          "7x3": 11550
-        }
+        "prices": {}
       }
     ],
     "additions": [],
