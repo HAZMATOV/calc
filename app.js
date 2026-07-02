@@ -68,7 +68,11 @@
         { id: "frame_upgrade", name: "Замена каркаса 50/100 на 50/150 без утепления (+2000 р/м²)", price: 2000, type: "area", quantity: 0 },
         { id: "vent_gap", name: "Вентзазор (периметр * 2000 р)", price: 2000, type: "area", quantity: 0 },
         { id: "roof_overhangs", name: "Свесы на кровле до 30 см (периметр * 1200 р)", price: 1200, type: "area", quantity: 0 },
- 
+
+        { id: "veranda_high", name: "Веранда (высокая крыша, 9 000 р/м²)", price: 9000, type: "area", quantity: 0 },
+        { id: "veranda_low", name: "Веранда (низкая крыша, 7 500 р/м²)", price: 7500, type: "area", quantity: 0 },
+        { id: "veranda_cabin", name: "Веранда (5 500 р/м²)", price: 5500, type: "area", quantity: 0 },
+
         { id: "generator_daily", name: "Генератор (сутки)", price: 2500, type: "quantity", quantity: 0 },
         { id: "material_carry", name: "Пронос материала свыше 20 м (за каждые 10 м)", price: 5000, type: "quantity", quantity: 0 },
         { id: "long_ladder", name: "Лестница на всю длину", price: 20000, type: "quantity", quantity: 0 }
@@ -190,9 +194,6 @@
         customLength: 6,
         customWidth: 3,
         customHeight: 2.4,
-        chkCustomVeranda: false,
-        customVerandaWidth: 2.0,
-        customVerandaType: 'freestanding',
         selCustomExterior: 'none',
         selCustomInterior: 'none',
         selCustomFloor: 'none',
@@ -231,12 +232,7 @@
     const lblCustomWidth = document.getElementById('lblCustomWidth');
     const customHeightSlider = document.getElementById('customHeightSlider');
     const lblCustomHeight = document.getElementById('lblCustomHeight');
-    const chkCustomVeranda = document.getElementById('chkCustomVeranda');
-    const lblCustomVerandaWidth = document.getElementById('lblCustomVerandaWidth');
-    const customVerandaSliderWrap = document.getElementById('customVerandaSliderWrap');
-    const customVerandaSlider = document.getElementById('customVerandaSlider');
-    const customVerandaTypeWrap = document.getElementById('customVerandaTypeWrap');
-    const selCustomVerandaType = document.getElementById('selCustomVerandaType');
+    // veranda moved to additions — no separate DOM refs needed
     const selCustomExterior = document.getElementById('selCustomExterior');
     const selCustomInterior = document.getElementById('selCustomInterior');
     const selCustomFloor = document.getElementById('selCustomFloor');
@@ -532,17 +528,6 @@
             lblCustomLength.textContent = `${Math.round(state.customLength)} м`;
             lblCustomWidth.textContent = `${Math.round(state.customWidth)} м`;
             lblCustomHeight.textContent = `${state.customHeight.toFixed(1)} м`;
-            lblCustomVerandaWidth.textContent = `${Math.round(state.customVerandaWidth)} м`;
-            
-            if (state.chkCustomVeranda) {
-                lblCustomVerandaWidth.style.display = 'inline';
-                customVerandaSliderWrap.style.display = 'flex';
-                customVerandaTypeWrap.style.display = 'none';
-            } else {
-                lblCustomVerandaWidth.style.display = 'none';
-                customVerandaSliderWrap.style.display = 'none';
-                customVerandaTypeWrap.style.display = 'none';
-            }
 
             // Dynamically update exterior, interior, insulation, and floor dropdown options
             updateCustomDropdowns();
@@ -819,14 +804,26 @@
         }
 
         model.additions.forEach(add => {
-            // Filter out double-pitch and veranda ceiling additions for all houses (only for cabins and hozbloks)
-            const isHouse = (state.calculatorMode === 'custom' && (state.customType === 'house_high' || state.customType === 'house_low')) ||
-                            (state.calculatorMode === 'standard' && model.name.includes("Дачный дом"));
+            // Determine context flags
+            const isHouseHigh = (state.calculatorMode === 'custom' && state.customType === 'house_high') ||
+                                 (state.calculatorMode === 'standard' && model.name.includes("Дачный дом") && isHighRoof());
+            const isHouseLow = (state.calculatorMode === 'custom' && state.customType === 'house_low') ||
+                                (state.calculatorMode === 'standard' && model.name.includes("Дачный дом") && !isHighRoof());
+            const isHouse = isHouseHigh || isHouseLow;
+            const isCabinOrHoz = (state.calculatorMode === 'custom' && (state.customType === 'cabin' || state.customType === 'hozblok')) ||
+                                  (state.calculatorMode === 'standard' && (model.name.includes("Бытовка") || model.name.includes("Хозблок")));
+
+            // Veranda filtering — show only the right variant
+            if (add.id === 'veranda_high') { if (!isHouseHigh) return; }
+            if (add.id === 'veranda_low')  { if (!isHouseLow)  return; }
+            if (add.id === 'veranda_cabin') { if (!isCabinOrHoz) return; }
+
+            // Filter out double-pitch and veranda ceiling additions for all houses
             if (isHouse) {
                 if (add.id === 'roof_double_pitch_1800' || add.id === 'roof_double_pitch_flat' || add.id === 'veranda_ceiling_board') {
                     return;
                 }
-                // Filter out proflist additions based on roof height for houses
+                // Filter proflist based on roof height for houses
                 if (isHighRoof()) {
                     if (add.id === 'roof_proflist_low') return;
                 } else {
@@ -834,13 +831,13 @@
                 }
             }
 
-            // Filter out double-pitch flat for hozbloks and standard hozbloks
+            // Filter out double-pitch flat for hozbloks
             if (add.id === 'roof_double_pitch_flat') {
                 if (state.customType === 'hozblok') return;
                 if (state.calculatorMode === 'standard' && model.name.includes("Хозблок")) return;
             }
 
-            // Filter out 200mm insulation additions for hozbloks, standard hozbloks, and standard cabins
+            // Filter out 200mm insulation for hozbloks and standard cabins/hozbloks
             if (add.id === 'ins_basalt_ceiling_200' || add.id === 'ins_basalt_floor_200') {
                 if (state.customType === 'hozblok') return;
                 if (state.calculatorMode === 'standard' && (model.name.includes("Бытовка") || model.name.includes("Хозблок"))) return;
@@ -851,14 +848,14 @@
                 if (state.calculatorMode === 'standard' && model.name.includes("Бытовка")) return;
             }
 
-            // Filter out door in roof end (only show for high roof houses)
+            // Filter out door in roof end — only for high roof houses
             if (add.id === 'roof_end_door') {
-                const isHighRoofHouse = (state.calculatorMode === 'custom' && state.customType === 'house_high') || 
+                const isHighRoofHouse = (state.calculatorMode === 'custom' && state.customType === 'house_high') ||
                                         (state.calculatorMode === 'standard' && model.name.includes("Дачный дом") && state.houseTypeHeight === 3.5);
                 if (!isHighRoofHouse) return;
             }
 
-            // Filter out vent gap for non-house structures (only show for houses)
+            // Vent gap only for houses
             if (add.id === 'vent_gap') {
                 if (!isHouse) return;
             }
@@ -963,7 +960,6 @@
         let assemblyPrice = 0;
         let floorSum = 0;
         let insulationSum = 0;
-        let verandaCost = 0;
         let selectedFinishName = '';
         let sizeName = '';
         let area = 0;
@@ -1022,46 +1018,7 @@
             };
             selectedFinishName = structNames[state.customType] || 'Бытовка';
 
-            // Veranda Cost
-            if (state.chkCustomVeranda) {
-                const verandaArea = state.customLength * state.customVerandaWidth;
-                if (state.customType === 'house_high') {
-                    verandaCost = verandaArea * 9000;
-                } else if (state.customType === 'house_low') {
-                    verandaCost = verandaArea * 7500;
-                } else if (state.customType === 'cabin' || state.customType === 'hozblok') {
-                    verandaCost = verandaArea * 5500;
-                } else {
-                    const l = state.customLength;
-                    const w = state.customVerandaWidth;
-                    const key = `${l}x${w}`;
-                    const standardPrices = {
-                        "3x2": { price: 45000, assembly: 10000 },
-                        "4x2": { price: 50000, assembly: 11000 },
-                        "5x2": { price: 56000, assembly: 13000 },
-                        "6x2": { price: 59000, assembly: 14000 },
-                        "3x3": { price: 54000, assembly: 10000 },
-                        "4x3": { price: 63000, assembly: 14000 },
-                        "5x3": { price: 71000, assembly: 16000 },
-                        "6x3": { price: 75000, assembly: 17000 }
-                    };
-                    let hzPrice = 0;
-                    let hzAsm = 0;
-                    if (standardPrices[key]) {
-                        hzPrice = standardPrices[key].price;
-                        hzAsm = standardPrices[key].assembly;
-                    } else {
-                        const area = l * w;
-                        hzPrice = area * 5500;
-                        hzAsm = area * 1000;
-                    }
-                    
-                    verandaCost = hzPrice;
-                    if (state.chkCustomAssembly) {
-                        assemblyPrice += hzAsm;
-                    }
-                }
-            }
+            // Veranda is now handled as an addition (доп. опция), no separate verandaCost here
 
             // Exterior Finish Upgrade
             let extCost = 0;
@@ -1255,7 +1212,7 @@
         }
 
         // Subtotal (ИТОГО)
-        const subtotal = basePrice + assemblyPrice + floorSum + insulationSum + verandaCost;
+        const subtotal = basePrice + assemblyPrice + floorSum + insulationSum;
 
         // Additions sum
         let additionsSum = 0;
@@ -1316,7 +1273,6 @@
         state.assemblyPrice = assemblyPrice;
         state.floorSum = floorSum;
         state.insulationSum = insulationSum;
-        state.verandaCost = verandaCost;
         state.additionsSum = additionsSum;
         state.deliveryPrice = deliveryPrice;
         state.discountVal = discountVal;
@@ -1355,11 +1311,6 @@
             <div class="summary-item">
                 <div>Сборка на участке:</div>
                 <div>${assemblyPrice.toLocaleString('ru-RU')} р.</div>
-            </div>` : ''}
-            ${verandaCost > 0 ? `
-            <div class="summary-item">
-                <div>Веранда:</div>
-                <div>${verandaCost.toLocaleString('ru-RU')} р.</div>
             </div>` : ''}
             ${floorSum > 0 ? `
             <div class="summary-item">
@@ -1476,16 +1427,13 @@
             text += `  - Утепление: ${insText}\n`;
             text += `  - Пол: ${floorNames[state.selCustomFloor] || 'Базовая'}\n`;
             
-            if (state.chkCustomVeranda) {
-                text += `  - Веранда (${Math.round(state.customVerandaWidth)} м)\n`;
-            }
+            // Veranda is now in доп. опции — listed in selectedAdditionsText below
         }
 
         text += `------------------------------------\n`;
 
         const basePrice = state.basePrice || 0;
         const assemblyPrice = state.assemblyPrice || 0;
-        const verandaCost = state.verandaCost || 0;
         const floorSum = state.floorSum || 0;
         const insulationSum = state.insulationSum || 0;
         const additionsSum = state.additionsSum || 0;
@@ -1496,7 +1444,6 @@
 
         text += `• База: ${basePrice.toLocaleString('ru-RU')} руб.\n`;
         if (assemblyPrice > 0) text += `• Сборка: ${assemblyPrice.toLocaleString('ru-RU')} руб.\n`;
-        if (verandaCost > 0) text += `• Веранда (${Math.round(state.customVerandaWidth)} м): ${verandaCost.toLocaleString('ru-RU')} руб.\n`;
         if (floorSum > 0) text += `• Отделка и полы: ${floorSum.toLocaleString('ru-RU')} руб.\n`;
         if (insulationSum > 0) text += `• Утепление: ${insulationSum.toLocaleString('ru-RU')} руб.\n`;
 
@@ -1742,27 +1689,12 @@
         renderModelUI();
     });
 
-    chkCustomVeranda.addEventListener('change', (e) => {
-        state.chkCustomVeranda = e.target.checked;
-        renderModelUI();
-    });
-
-    customVerandaSlider.addEventListener('input', (e) => {
-        state.customVerandaWidth = parseFloat(e.target.value) || 1;
-        renderModelUI();
-    });
-
     // Custom Selects updates
     [selCustomExterior, selCustomInterior, selCustomFloor, selCustomInsulation].forEach(el => {
         el.addEventListener('change', (e) => {
             state[el.id] = e.target.value;
             calculateBill();
         });
-    });
-
-    selCustomVerandaType.addEventListener('change', (e) => {
-        state.customVerandaType = e.target.value;
-        calculateBill();
     });
 
     chkCustomAssembly.addEventListener('change', (e) => {
