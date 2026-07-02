@@ -63,7 +63,8 @@
         { id: "profile_harness", name: "Обвязка свай профилем 20х40 одной линией (периметр * 450 р)", price: 450, type: "area", quantity: 0 },
  
         { id: "roof_metal", name: "Кровля: Металлочерепица (+1500 р/м²)", price: 1500, type: "area", quantity: 0 },
-        { id: "roof_proflist", name: "Кровля: Профлист С8 цветной (+750 р/м²)", price: 750, type: "area", quantity: 0 },
+        { id: "roof_proflist_low", name: "Кровля: Профлист С8 цветной низкая крыша (+500 р/м²)", price: 500, type: "area", quantity: 0 },
+        { id: "roof_proflist_high", name: "Кровля: Профлист С8 цветной высокая крыша (+750 р/м²)", price: 750, type: "area", quantity: 0 },
         { id: "frame_upgrade", name: "Замена каркаса 50/100 на 50/150 без утепления (+2000 р/м²)", price: 2000, type: "area", quantity: 0 },
         { id: "vent_gap", name: "Вентзазор (периметр * 2000 р)", price: 2000, type: "area", quantity: 0 },
         { id: "roof_overhangs", name: "Свесы на кровле до 30 см (периметр * 1200 р)", price: 1200, type: "area", quantity: 0 },
@@ -79,11 +80,14 @@
         rate_house_low_osb: 9500,
         rate_house_low_lining: 10000,
         rate_cabin: 8000,
+        rate_int_cabin_lining: 120,
+        rate_int_cabin_imitation: 370,
+        rate_ins_100_min_wool: 550,
         rate_hozblok: 5500,
         rate_veranda: 9000,
         rate_ext_imitation: 250,
         rate_ext_blockhouse: 1000,
-        rate_ext_proflist: 300,
+        rate_ext_proflist: 400,
         rate_ext_osb: 300,
         rate_int_osb: 300,
         rate_int_lining: 400,
@@ -192,7 +196,7 @@
         selCustomExterior: 'none',
         selCustomInterior: 'none',
         selCustomFloor: 'none',
-        selCustomInsulation: '50',
+        selCustomInsulation: '100_base_min',
         chkCustomAssembly: false,
         
         // Standard Mode params
@@ -347,7 +351,7 @@
 
     function getActiveModel() {
         if (state.calculatorMode === 'custom') {
-            if (state.customType === 'house_high' || state.customType === 'house_low_osb' || state.customType === 'house_low_lining') {
+            if (state.customType === 'house_high' || state.customType === 'house_low') {
                 return activeConfig.find(m => m.name.includes("Дачный дом \"Каркасный\"")) || activeConfig[1];
             } else {
                 return activeConfig.find(m => m.name.includes("Бытовка А. Корнилова")) || activeConfig.find(m => m.name.includes("Бытовка")) || activeConfig[0];
@@ -369,12 +373,12 @@
                 <option value="imitation_a">Имитация бруса 'А' (+150 р/м²)</option>
                 <option value="blockhouse">Блок-хаус (+750 р/м²)</option>
             `;
-        } else if (type === 'house_low_osb' || type === 'house_low_lining') {
+        } else if (type === 'house_low') {
             extHTML = `
                 <option value="none">Вагонка 'ВС' (базовая, включена)</option>
                 <option value="imitation">Имитация бруса (+250 р/м²)</option>
                 <option value="blockhouse">Блок-хаус (+1000 р/м²)</option>
-                <option value="proflist">Профлист цветной (+300 р/м²)</option>
+                <option value="proflist">Профлист цветной (+400 р/м²)</option>
                 <option value="osb">ОСБ 12 мм (+300 р/м²)</option>
             `;
         } else { // cabin, hozblok
@@ -382,7 +386,7 @@
                 <option value="none">Вагонка класса В (базовая, включена)</option>
                 <option value="imitation">Имитация бруса (+250 р/м²)</option>
                 <option value="blockhouse">Блок-хаус (+1000 р/м²)</option>
-                <option value="proflist">Профлист цветной (+300 р/м²)</option>
+                <option value="proflist">Профлист цветной (+400 р/м²)</option>
                 <option value="osb">ОСБ 12 мм (+300 р/м²)</option>
             `;
         }
@@ -403,20 +407,20 @@
                 <option value="none">Вагонка 'ВС' (базовая, включена)</option>
                 <option value="imitation">Имитация бруса (+250 р/м²)</option>
             `;
-        } else if (type === 'house_low_osb') {
+        } else if (type === 'house_low') {
             intHTML = `
-                <option value="none">ОСБ 9 мм (базовая, включена)</option>
-                <option value="lining">Вагонка 'ВС' (+500 р/м²)</option>
-                <option value="imitation">Имитация бруса (+750 р/м²)</option>
+                <option value="osb">ОСБ 9 мм (базовая, включена)</option>
+                <option value="lining">Вагонка 'ВС' (базовая, включена)</option>
             `;
-        } else if (type === 'house_low_lining') {
+        } else if (type === 'cabin') {
             intHTML = `
-                <option value="none">Вагонка 'ВС' (базовая, включена)</option>
-                <option value="imitation">Имитация бруса (+250 р/м²)</option>
+                <option value="osb">ОСБ 9 мм (базовая, включена)</option>
+                <option value="lining">Вагонка 'ВС' (+120 р/м²)</option>
+                <option value="imitation">Имитация бруса 'В' (+370 р/м²)</option>
             `;
-        } else { // cabin, hozblok
+        } else { // hozblok
             intHTML = `
-                <option value="none">ДВП (базовая, включена)</option>
+                <option value="none">Без отделки (базовая, включена)</option>
                 <option value="osb">ОСБ 9 мм (+300 р/м²)</option>
                 <option value="lining">Вагонка класса В (+400 р/м²)</option>
                 <option value="mdf">МДФ панели (+500 р/м²)</option>
@@ -429,7 +433,7 @@
         if (selCustomInterior.querySelector(`option[value="${prevInt}"]`)) {
             selCustomInterior.value = prevInt;
         } else {
-            selCustomInterior.value = 'none';
+            selCustomInterior.value = (type === 'house_low' || type === 'cabin') ? 'osb' : 'none';
         }
         state.selCustomInterior = selCustomInterior.value;
 
@@ -437,13 +441,26 @@
         let insHTML = '';
         if (type === 'house_high') {
             insHTML = `
-                <option value="100_base">100 мм базальтовая плита (базовая, включена)</option>
+                <option value="100_base_min">100 мм мин. вата (базовая, включена)</option>
+                <option value="100">100 мм базальтовая плита (по формуле)</option>
                 <option value="150">150 мм базальтовая плита (+3 500 р/м²)</option>
                 <option value="cold">Без утеплителя / холодный контур (ХК)</option>
             `;
+        } else if (type === 'cabin') {
+            insHTML = `
+                <option value="50_min_wool">50 мм мин. вата (базовая, включена)</option>
+                <option value="100_min_wool">100 мм мин. вата (+550 р/м²)</option>
+                <option value="100">100 мм базальтовая плита (по формуле)</option>
+                <option value="150">150 мм базальтовая плита (+3 500 р/м²)</option>
+                <option value="0">Без утепления</option>
+            `;
+        } else if (type === 'hozblok') {
+            insHTML = `
+                <option value="0">Без утепления (включено)</option>
+            `;
         } else {
             insHTML = `
-                <option value="50">50 мм мин. вата (включено)</option>
+                <option value="100_base_min">100 мм мин. вата (в базовой)</option>
                 <option value="100">100 мм базальтовая плита (по формуле)</option>
                 <option value="150">150 мм базальтовая плита (+3 500 р/м²)</option>
                 <option value="0">Без утепления</option>
@@ -455,13 +472,21 @@
         if (selCustomInsulation.querySelector(`option[value="${prevIns}"]`)) {
             selCustomInsulation.value = prevIns;
         } else {
-            selCustomInsulation.value = type === 'house_high' ? '100_base' : '50';
+            if (type === 'house_high') {
+                selCustomInsulation.value = '100_base_min';
+            } else if (type === 'cabin') {
+                selCustomInsulation.value = '50_min_wool';
+            } else if (type === 'hozblok') {
+                selCustomInsulation.value = '0';
+            } else {
+                selCustomInsulation.value = '100_base_min';
+            }
         }
         state.selCustomInsulation = selCustomInsulation.value;
 
         // 4. Floor Dropdown
         let floorHTML = '';
-        if (type === 'house_high' || type === 'house_low_osb' || type === 'house_low_lining') {
+        if (type === 'house_high' || type === 'house_low') {
             floorHTML = `
                 <option value="none">Обрезная доска 25мм (базовая)</option>
                 <option value="osb12">ОСБ 12мм (+500 р/м²)</option>
@@ -488,6 +513,21 @@
     // 4. Model UI Rendering Engine
     function renderModelUI() {
         if (state.calculatorMode === 'custom') {
+            if (state.customType === 'house_high') {
+                customHeightSlider.disabled = true;
+                state.customHeight = 2.4;
+                customHeightSlider.value = 2.4;
+            } else if (state.customType === 'house_low') {
+                customHeightSlider.disabled = true;
+                state.customHeight = 2.2;
+                customHeightSlider.value = 2.2;
+            } else if (state.customType === 'cabin' || state.customType === 'hozblok') {
+                customHeightSlider.disabled = true;
+                state.customHeight = 2.0;
+                customHeightSlider.value = 2.0;
+            } else {
+                customHeightSlider.disabled = false;
+            }
             // Render Custom Constructor sliders labels
             lblCustomLength.textContent = `${Math.round(state.customLength)} м`;
             lblCustomWidth.textContent = `${Math.round(state.customWidth)} м`;
@@ -510,10 +550,19 @@
             // Assembly price update in UI
             const area = state.customLength * state.customWidth;
             let assemblyPrice = 0;
-            if (state.customType !== 'house_high' && state.customType !== 'house_low_osb' && state.customType !== 'house_low_lining') {
+            if (state.customType !== 'house_high' && state.customType !== 'house_low' && state.customType !== 'hozblok') {
                 assemblyPrice = Math.round(area * customRates.rate_assembly);
             }
             lblCustomAssemblyPrice.textContent = `+${assemblyPrice.toLocaleString('ru-RU')} руб.`;
+
+            const assemblyRow = chkCustomAssembly.closest('.option-row');
+            if (state.customType === 'hozblok') {
+                assemblyRow.style.display = 'none';
+                state.chkCustomAssembly = false;
+                chkCustomAssembly.checked = false;
+            } else {
+                assemblyRow.style.display = 'flex';
+            }
             
             // Render Additions and Delivery notes
             renderAdditions();
@@ -567,6 +616,60 @@
                     } else {
                         price = fin.prices[state.selectedSizeId] || 0;
                     }
+                } else if (model.name.includes("Бытовка базовая") && size) {
+                    const isCombined = size.cabinWidth !== undefined;
+                    let calcArea = size.length * size.width;
+                    let calcPerimeter = 2 * (size.length + size.width);
+                    if (isCombined) {
+                        calcArea = size.length * size.cabinWidth;
+                        calcPerimeter = 2 * (size.length + size.cabinWidth);
+                    }
+                    
+                    let basePriceVagankaOsb = 0;
+                    if (isCombined) {
+                        const cabinModel = activeConfig.find(m => m.name.includes("Бытовка"));
+                        const hozblokModel = activeConfig.find(m => m.name.includes("Хозблок"));
+                        if (cabinModel && hozblokModel) {
+                            const cabinSizeId = `${size.length}x${size.cabinWidth}`;
+                            const hozWidth = size.verandaWidth === 1 ? 2 : size.verandaWidth;
+                            const hozSizeId = `${size.length}x${hozWidth}`;
+                            
+                            const cabPrice = cabinModel.finishes[0].prices[cabinSizeId] || 0;
+                            let hozPrice = hozblokModel.finishes[0].prices[hozSizeId] || 0;
+                            if (size.verandaWidth === 1) hozPrice -= 20000;
+                            
+                            basePriceVagankaOsb = cabPrice + hozPrice + 10000;
+                        }
+                    } else {
+                        basePriceVagankaOsb = model.finishes[0].prices[size.id] || 0;
+                    }
+                    
+                    let extCost = 0;
+                    let intCost = 0;
+                    
+                    if (fin.name.includes("Имитация бруса 'В'")) {
+                        extCost = calcPerimeter * 2.5 * 250;
+                    } else if (fin.name.includes("Профлист С8 цветной")) {
+                        extCost = calcPerimeter * 2.5 * 400;
+                    }
+                    
+                    if (fin.name.includes("Вагонка 'ВС' / Вагонка 'ВС'") || fin.name.includes("/ Вагонка 'ВС'")) {
+                        intCost = (calcPerimeter * 2.5 + calcArea) * 120;
+                    }
+                    
+                    price = basePriceVagankaOsb + extCost + intCost;
+                } else if (model.name.includes("Хозблоки базовая") && size) {
+                    const perimeter = 2 * (size.length + size.width);
+                    const basePriceVagankaNone = model.finishes[0].prices[size.id] || 0;
+                    let extCost = 0;
+                    
+                    if (fin.name.includes("Имитация бруса 'В'")) {
+                        extCost = perimeter * 2.5 * 250;
+                    } else if (fin.name.includes("Профлист С8 цветной")) {
+                        extCost = perimeter * 2.5 * 400;
+                    }
+                    
+                    price = basePriceVagankaNone + extCost;
                 } else {
                     price = fin.prices[state.selectedSizeId] || 0;
                 }
@@ -699,25 +802,65 @@
         if (!model) return;
         
         additionsList.innerHTML = '';
-        
+
         let area = 0;
         let perimeter = 0;
+        let calcPerimeter = 0;
         
         if (state.calculatorMode === 'custom') {
             area = state.customLength * state.customWidth;
             perimeter = 2 * (state.customLength + state.customWidth);
+            calcPerimeter = perimeter;
         } else {
             const size = model.sizes.find(s => s.id === state.selectedSizeId);
             area = size ? size.length * size.width : 0;
             perimeter = size ? 2 * (size.length + size.width) : 0;
+            calcPerimeter = (size && size.cabinWidth !== undefined) ? 2 * (size.length + size.cabinWidth) : perimeter;
         }
 
         model.additions.forEach(add => {
-            // Filter out double-pitch additions for high roof structures
-            if (isHighRoof()) {
-                if (add.id === 'roof_double_pitch_1800' || add.id === 'roof_double_pitch_flat') {
+            // Filter out double-pitch and veranda ceiling additions for all houses (only for cabins and hozbloks)
+            const isHouse = (state.calculatorMode === 'custom' && (state.customType === 'house_high' || state.customType === 'house_low')) ||
+                            (state.calculatorMode === 'standard' && model.name.includes("Дачный дом"));
+            if (isHouse) {
+                if (add.id === 'roof_double_pitch_1800' || add.id === 'roof_double_pitch_flat' || add.id === 'veranda_ceiling_board') {
                     return;
                 }
+                // Filter out proflist additions based on roof height for houses
+                if (isHighRoof()) {
+                    if (add.id === 'roof_proflist_low') return;
+                } else {
+                    if (add.id === 'roof_proflist_high') return;
+                }
+            }
+
+            // Filter out double-pitch flat for hozbloks and standard hozbloks
+            if (add.id === 'roof_double_pitch_flat') {
+                if (state.customType === 'hozblok') return;
+                if (state.calculatorMode === 'standard' && model.name.includes("Хозблок")) return;
+            }
+
+            // Filter out 200mm insulation additions for hozbloks, standard hozbloks, and standard cabins
+            if (add.id === 'ins_basalt_ceiling_200' || add.id === 'ins_basalt_floor_200') {
+                if (state.customType === 'hozblok') return;
+                if (state.calculatorMode === 'standard' && (model.name.includes("Бытовка") || model.name.includes("Хозблок"))) return;
+            }
+
+            // Filter out veranda ceiling board for standard cabins
+            if (add.id === 'veranda_ceiling_board') {
+                if (state.calculatorMode === 'standard' && model.name.includes("Бытовка")) return;
+            }
+
+            // Filter out door in roof end (only show for high roof houses)
+            if (add.id === 'roof_end_door') {
+                const isHighRoofHouse = (state.calculatorMode === 'custom' && state.customType === 'house_high') || 
+                                        (state.calculatorMode === 'standard' && model.name.includes("Дачный дом") && state.houseTypeHeight === 3.5);
+                if (!isHighRoofHouse) return;
+            }
+
+            // Filter out vent gap for non-house structures (only show for houses)
+            if (add.id === 'vent_gap') {
+                if (!isHouse) return;
             }
 
             // Apply filtering logic
@@ -728,6 +871,7 @@
                 } else if (activeAdditionFilter === 'doors') {
                     if (!nameLower.includes('двер')) return;
                 } else if (activeAdditionFilter === 'area') {
+                    if (add.id === 'profile_harness') return;
                     if (add.type !== 'area' && !nameLower.includes('пол') && !nameLower.includes('ваг') && !nameLower.includes('осб') && !nameLower.includes('стена') && !nameLower.includes('покраск')) return;
                 } else if (activeAdditionFilter === 'piles') {
                     if (!nameLower.includes('сва') && !nameLower.includes('обвязк')) return;
@@ -745,10 +889,10 @@
                 const nameLower = add.name.toLowerCase();
                 if (nameLower.includes('стена') || nameLower.includes('стен')) {
                     const height = (state.calculatorMode === 'custom') ? state.customHeight : ((model.name.includes("Дачный дом \"Каркасный\"")) ? state.houseTypeHeight : 2.2);
-                    recQty = Math.ceil(perimeter * height);
+                    recQty = Math.ceil(calcPerimeter * height);
                     recText = `Стены: ${recQty} м²`;
                 } else if (nameLower.includes('периметр') || nameLower.includes('вентзазор') || nameLower.includes('свес') || nameLower.includes('обвязк')) {
-                    recQty = Math.ceil(perimeter);
+                    recQty = Math.ceil(calcPerimeter);
                     recText = `Периметр: ${recQty} м`;
                 } else {
                     recQty = Math.ceil(area);
@@ -826,6 +970,7 @@
         let perimeter = 0;
 
         const model = getActiveModel();
+        if (!model) return;
 
         if (state.calculatorMode === 'custom') {
             // 5.1 Custom Constructor Mode Calculations
@@ -835,22 +980,43 @@
             let extWallArea = wallArea;
             if (state.customType === 'house_high') {
                 extWallArea = perimeter * 3.5;
+            } else if (state.customType === 'house_low' || state.customType === 'cabin' || state.customType === 'hozblok') {
+                extWallArea = perimeter * 2.5;
             }
             
             sizeName = `${Math.round(state.customLength)}х${Math.round(state.customWidth)}м`;
 
             // Base rate lookup based on category type selection
-            let baseRate = customRates[`rate_${state.customType}`] || 8000;
-            if (state.customType === 'house_high' && state.selCustomInsulation === 'cold') {
-                baseRate = 9500;
+            let baseRate = 8000;
+            if (state.customType === 'house_low') {
+                if (state.selCustomInsulation === '0') {
+                    baseRate = 8000;
+                } else if (state.selCustomInterior === 'lining') {
+                    baseRate = customRates.rate_house_low_lining || 10000;
+                } else {
+                    baseRate = customRates.rate_house_low_osb || 9500;
+                }
+            } else if (state.customType === 'house_high') {
+                baseRate = customRates.rate_house_high || 12500;
+                if (state.selCustomInsulation === 'cold') {
+                    baseRate = 9500;
+                }
+            } else {
+                baseRate = customRates[`rate_${state.customType}`] || 8000;
             }
-            basePrice = Math.round(area * baseRate * (Math.round((state.customHeight / 2.4) * 100) / 100));
+
+            // Calculate base price: only high house scales if its height changes,
+            // but for low house, cabin, and hozblok the rate is per m2 at their fixed height, so height scaling is 1.
+            let heightFactor = 1;
+            if (state.customType === 'house_high') {
+                heightFactor = Math.round((state.customHeight / 2.4) * 100) / 100;
+            }
+            basePrice = Math.round(area * baseRate * heightFactor);
             
             // Structure Label
             const structNames = {
                 house_high: 'Дом высокий',
-                house_low_osb: 'Дом низкий (ОСБ)',
-                house_low_lining: 'Дом низкий (Вагонка)',
+                house_low: 'Дом низкий',
                 cabin: 'Бытовка',
                 hozblok: 'Хозблок'
             };
@@ -861,8 +1027,10 @@
                 const verandaArea = state.customLength * state.customVerandaWidth;
                 if (state.customType === 'house_high') {
                     verandaCost = verandaArea * 9000;
-                } else if (state.customType === 'house_low_osb' || state.customType === 'house_low_lining') {
+                } else if (state.customType === 'house_low') {
                     verandaCost = verandaArea * 7500;
+                } else if (state.customType === 'cabin' || state.customType === 'hozblok') {
+                    verandaCost = verandaArea * 5500;
                 } else {
                     const l = state.customLength;
                     const w = state.customVerandaWidth;
@@ -915,11 +1083,16 @@
                 let rate = 0;
                 if (state.customType === 'house_high') {
                     if (state.selCustomInterior === 'imitation') rate = 250;
-                } else if (state.customType === 'house_low_osb') {
-                    const rates = { lining: 500, imitation: 750 };
-                    rate = rates[state.selCustomInterior] || 0;
-                } else if (state.customType === 'house_low_lining') {
-                    if (state.selCustomInterior === 'imitation') rate = 250;
+                } else if (state.customType === 'house_low') {
+                    rate = 0;
+                } else if (state.customType === 'cabin') {
+                    if (state.selCustomInterior === 'lining') {
+                        rate = customRates.rate_int_cabin_lining || 120;
+                    } else if (state.selCustomInterior === 'imitation') {
+                        rate = customRates.rate_int_cabin_imitation || 370;
+                    } else {
+                        rate = 0;
+                    }
                 } else {
                     rate = customRates[`rate_int_${state.selCustomInterior}`] || 0;
                 }
@@ -939,6 +1112,8 @@
             if (state.selCustomInsulation === '100') {
                 const insArea = (state.customWidth * 2 * 2.5) + (state.customLength * 2 * 2.5) + area + area;
                 insulationSum = insArea * (customRates.rate_ins_100 || 300);
+            } else if (state.selCustomInsulation === '100_min_wool') {
+                insulationSum = area * (customRates.rate_ins_100_min_wool || 550);
             } else if (state.selCustomInsulation === '150') {
                 insulationSum = area * 3500;
             } else if (state.selCustomInsulation === '200_ceiling') {
@@ -951,7 +1126,7 @@
 
             // Assembly Cost
             if (state.chkCustomAssembly) {
-                if (state.customType !== 'house_high' && state.customType !== 'house_low_osb' && state.customType !== 'house_low_lining') {
+                if (state.customType !== 'house_high' && state.customType !== 'house_low' && state.customType !== 'hozblok') {
                     assemblyPrice = Math.round(area * customRates.rate_assembly);
                 } else {
                     assemblyPrice = 0;
@@ -964,6 +1139,16 @@
             const size = model.sizes.find(s => s.id === state.selectedSizeId);
             const finish = model.finishes[state.selectedFinishIdx];
             if (!size || !finish) return;
+
+            const isCabin = model.name.includes("Бытовка базовая");
+            const isCombined = isCabin && size && size.cabinWidth !== undefined;
+            
+            let calcArea = size.length * size.width;
+            let calcPerimeter = 2 * (size.length + size.width);
+            if (isCombined) {
+                calcArea = size.length * size.cabinWidth;
+                calcPerimeter = 2 * (size.length + size.cabinWidth);
+            }
 
             area = size.length * size.width;
             perimeter = 2 * (size.length + size.width);
@@ -981,13 +1166,73 @@
                 } else {
                     basePrice = finish.prices[size.id] || 0;
                 }
+            } else if (isCabin && size) {
+                let basePriceVagankaOsb = 0;
+                if (isCombined) {
+                    const cabinModel = activeConfig.find(m => m.name.includes("Бытовка"));
+                    const hozblokModel = activeConfig.find(m => m.name.includes("Хозблок"));
+                    if (cabinModel && hozblokModel) {
+                        const cabinSizeId = `${size.length}x${size.cabinWidth}`;
+                        const hozWidth = size.verandaWidth === 1 ? 2 : size.verandaWidth;
+                        const hozSizeId = `${size.length}x${hozWidth}`;
+                        
+                        const cabPrice = cabinModel.finishes[0].prices[cabinSizeId] || 0;
+                        let hozPrice = hozblokModel.finishes[0].prices[hozSizeId] || 0;
+                        if (size.verandaWidth === 1) hozPrice -= 20000;
+                        
+                        basePriceVagankaOsb = cabPrice + hozPrice + 10000;
+                    }
+                } else {
+                    basePriceVagankaOsb = model.finishes[0].prices[size.id] || 0;
+                }
+                
+                let extCost = 0;
+                let intCost = 0;
+                
+                if (finish.name.includes("Имитация бруса 'В'")) {
+                    extCost = calcPerimeter * 2.5 * 250;
+                } else if (finish.name.includes("Профлист С8 цветной")) {
+                    extCost = calcPerimeter * 2.5 * 400;
+                }
+                
+                if (finish.name.includes("Вагонка 'ВС' / Вагонка 'ВС'") || finish.name.includes("/ Вагонка 'ВС'")) {
+                    intCost = (calcPerimeter * 2.5 + calcArea) * 120;
+                }
+                
+                basePrice = basePriceVagankaOsb + extCost + intCost;
+            } else if (model.name.includes("Хозблоки базовая") && size) {
+                const basePriceVagankaNone = model.finishes[0].prices[size.id] || 0;
+                let extCost = 0;
+                
+                if (finish.name.includes("Имитация бруса 'В'")) {
+                    extCost = perimeter * 2.5 * 250;
+                } else if (finish.name.includes("Профлист С8 цветной")) {
+                    extCost = perimeter * 2.5 * 400;
+                }
+                
+                basePrice = basePriceVagankaNone + extCost;
             } else {
                 basePrice = finish.prices[size.id] || 0;
             }
 
             // Assembly
             if (state.isAssemblyChecked) {
-                assemblyPrice = finish.assembly[size.id] || model.assembly?.[size.id] || 0;
+                if (isCombined) {
+                    const cabinModel = activeConfig.find(m => m.name.includes("Бытовка"));
+                    const hozblokModel = activeConfig.find(m => m.name.includes("Хозблок"));
+                    if (cabinModel && hozblokModel) {
+                        const cabinSizeId = `${size.length}x${size.cabinWidth}`;
+                        const hozWidth = size.verandaWidth === 1 ? 2 : size.verandaWidth;
+                        const hozSizeId = `${size.length}x${hozWidth}`;
+                        
+                        const cabAsm = cabinModel.finishes[0].assembly[cabinSizeId] || 0;
+                        const hozAsm = hozblokModel.finishes[0].assembly[hozSizeId] || 0;
+                        
+                        assemblyPrice = cabAsm + hozAsm;
+                    }
+                } else {
+                    assemblyPrice = finish.assembly[size.id] || model.assembly?.[size.id] || 0;
+                }
             }
 
             // Floor Options sum
@@ -999,7 +1244,13 @@
             // Insulation sum
             state.selectedInsulationIds.forEach(id => {
                 const opt = model.insulation.find(o => o.id === id);
-                if (opt) insulationSum += (opt.prices[size.id] || 0);
+                if (opt) {
+                    if (isCombined) {
+                        insulationSum += calcArea * 550;
+                    } else {
+                        insulationSum += (opt.prices[size.id] || 0);
+                    }
+                }
             });
         }
 
@@ -1144,7 +1395,7 @@
             <div class="summary-item">
                 <div style="display:flex; align-items:center; gap:5px;">
                     <input type="checkbox" id="chkVat" ${state.isVatChecked ? 'checked' : ''}>
-                    <label for="chkVat" style="cursor:pointer;">НДС 20%:</label>
+                    <label for="chkVat" style="cursor:pointer;">Сборка 20%:</label>
                 </div>
                 <div class="vat" style="font-weight:600;">${state.isVatChecked ? '+' + vatVal.toLocaleString('ru-RU') + ' р.' : '0 р.'}</div>
             </div>
@@ -1191,12 +1442,12 @@
                 imitation: 'Имитация бруса'
             };
             const intNames = {
-                none: state.customType === 'house_high' ? 'Вагонка класса ВС' : (state.customType === 'house_low_osb' ? 'ОСБ 9 мм' : (state.customType === 'house_low_lining' ? 'Вагонка класса ВС' : 'ДВП')),
+                none: state.customType === 'hozblok' ? 'Без отделки' : (state.customType === 'house_high' ? 'Вагонка класса ВС' : 'ДВП'),
                 osb: 'ОСБ 9 мм',
-                lining: 'Вагонка класса В',
+                lining: 'Вагонка "ВС"',
                 mdf: 'МДФ панели',
                 pvc: 'ПВХ панели',
-                imitation: 'Имитация бруса'
+                imitation: 'Имитация бруса "В"'
             };
             const floorNames = {
                 none: 'Обрезная доска 25мм',
@@ -1213,6 +1464,12 @@
                 insText = 'Без утепления';
             } else if (state.selCustomInsulation === '100_base') {
                 insText = '100 мм базальтовая плита (базовая)';
+            } else if (state.selCustomInsulation === '50_min_wool') {
+                insText = '50 мм мин. вата (базовая)';
+            } else if (state.selCustomInsulation === '100_min_wool') {
+                insText = '100 мм мин. вата';
+            } else if (state.selCustomInsulation === '100_base_min') {
+                insText = '100 мм мин. вата (в базовой)';
             } else {
                 insText = state.selCustomInsulation + ' мм базальтовая плита';
             }
@@ -1262,7 +1519,7 @@
             text += `🏷️ Скидка 3%: -${discountVal.toLocaleString('ru-RU')} руб.\n`;
         }
         if (state.isVatChecked) {
-            text += `🏦 НДС 20%: +${vatVal.toLocaleString('ru-RU')} руб.\n`;
+            text += `🛠️ Сборка 20%: +${vatVal.toLocaleString('ru-RU')} руб.\n`;
         }
 
         text += `------------------------------------\n`;
@@ -1283,8 +1540,11 @@
             
             const fields = [
                 { label: 'Тариф за Дом высокий (м² по полу)', key: 'rate_house_high', val: customRates.rate_house_high },
-                { label: 'Тариф за Дом низкий (м² по полу)', key: 'rate_house_low', val: customRates.rate_house_low },
+                { label: 'Тариф за Дом низкий ОСБ (м² по полу)', key: 'rate_house_low_osb', val: customRates.rate_house_low_osb },
+                { label: 'Тариф за Дом низкий Вагонка (м² по полу)', key: 'rate_house_low_lining', val: customRates.rate_house_low_lining },
                 { label: 'Тариф за Бытовку (м² по полу)', key: 'rate_cabin', val: customRates.rate_cabin },
+                { label: 'Бытовка Внутрянка: Вагонка ВС (м²)', key: 'rate_int_cabin_lining', val: customRates.rate_int_cabin_lining || 120 },
+                { label: 'Бытовка Внутрянка: Имитация бруса В (м²)', key: 'rate_int_cabin_imitation', val: customRates.rate_int_cabin_imitation || 370 },
                 { label: 'Тариф за Хозблок (м² по полу)', key: 'rate_hozblok', val: customRates.rate_hozblok },
                 { label: 'Тариф за Блок-контейнер (м² по полу)', key: 'rate_container', val: customRates.rate_container },
                 { label: 'Стоимость веранды (м² веранды)', key: 'rate_veranda', val: customRates.rate_veranda },
@@ -1297,6 +1557,7 @@
                 { label: 'Внутрянка: МДФ панели (м² стен)', key: 'rate_int_mdf', val: customRates.rate_int_mdf },
                 { label: 'Внутрянка: ПВХ панели (м² стен)', key: 'rate_int_pvc', val: customRates.rate_int_pvc },
                 { label: 'Утепление 100 мм базальтовая плита (м² по формуле)', key: 'rate_ins_100', val: customRates.rate_ins_100 },
+                { label: 'Утепление 100 мм мин. вата бытовка (м² пола)', key: 'rate_ins_100_min_wool', val: customRates.rate_ins_100_min_wool || 550 },
                 { label: 'Утепление 200 мм потолок (м²)', key: 'rate_ins_200_ceiling', val: customRates.rate_ins_200_ceiling || 1000 },
                 { label: 'Утепление 200 мм пол (м²)', key: 'rate_ins_200_floor', val: customRates.rate_ins_200_floor || 1000 },
                 { label: 'Пол: ОСБ 12 мм (м² пола)', key: 'rate_floor_osb12', val: customRates.rate_floor_osb12 },
@@ -1517,9 +1778,15 @@
             state.customType = card.getAttribute('data-type');
             
             // Auto default height based on type
-            if (state.customType.includes('house')) {
+            if (state.customType === 'house_high') {
                 state.customHeight = 2.4;
                 customHeightSlider.value = 2.4;
+            } else if (state.customType === 'house_low') {
+                state.customHeight = 2.2;
+                customHeightSlider.value = 2.2;
+            } else if (state.customType === 'cabin' || state.customType === 'hozblok') {
+                state.customHeight = 2.0;
+                customHeightSlider.value = 2.0;
             } else {
                 state.customHeight = 2.1;
                 customHeightSlider.value = 2.1;
@@ -1561,20 +1828,24 @@
                 localStorage.removeItem('mobistroy_custom_rates');
                 customRates = {
                     rate_house_high: 12500,
-                    rate_house_low: 10000,
+                    rate_house_low_osb: 9500,
+                    rate_house_low_lining: 10000,
                     rate_cabin: 8000,
+                    rate_int_cabin_lining: 120,
+                    rate_int_cabin_imitation: 370,
                     rate_hozblok: 5500,
                     rate_container: 9000,
                     rate_veranda: 9000,
                     rate_ext_imitation: 250,
                     rate_ext_blockhouse: 1000,
-                    rate_ext_proflist: 300,
+                    rate_ext_proflist: 400,
                     rate_ext_osb: 300,
                     rate_int_osb: 300,
                     rate_int_lining: 400,
                     rate_int_mdf: 500,
                     rate_int_pvc: 500,
                     rate_ins_100: 300,
+                    rate_ins_100_min_wool: 550,
                     rate_ins_200_ceiling: 1000,
                     rate_ins_200_floor: 1000,
                     rate_floor_osb12: 500,
